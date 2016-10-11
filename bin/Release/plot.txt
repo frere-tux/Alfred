@@ -1,1 +1,0 @@
-plot './radioLog.dat' with filledcurve y2
