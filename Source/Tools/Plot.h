@@ -13,6 +13,7 @@ namespace Al
 
         void init();
         void logPulse(const unsigned int _pulse);
+        void stopLog();
         void plotLog();
 
     private:

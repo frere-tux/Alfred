@@ -12,6 +12,10 @@
 #include "Tools/StringTools.h"
 
 
+#define PLOT_DATA true
+#define PLOT_DATA_ON_FAIL false
+
+
 using namespace Al;
 
 void scheduler_realtime()
@@ -60,16 +64,6 @@ int main (int argc, char** argv)
     bool endLoop = false;
     while (!endLoop)
     {
-        Plot plot;
-        plot.init();
-
-        unsigned int dataBits = 0;
-
-		unsigned long t = 0;
-
-        int prevBit = 0;
-        int bit = 0;
-
         unsigned long sender = 0;
         bool group = false;
         bool on = false;
@@ -79,122 +73,97 @@ int main (int argc, char** argv)
         debug.addLog(LogType_Message, "Waiting for signal");
 
 
-
-        t = Radio::getPulseIn(pin, LOW, 1000000);
-        while(t < 2550 || t > 2800)
+        RadioManchesterArray manchArray, validManchArray;
+        for (unsigned int i = 0 ; i < RADIO_MESSAGE_SIZE*2 ; ++i)
         {
-            t = Radio::getPulseIn(pin, LOW,1000000);
+            manchArray.data[i] = 0;
+            validManchArray.data[i] = 0;
         }
 
-        plot.logPulse(t);
-
-        while (dataBits < 64)
+        RadioMessageArray msgArray, validMsgArray;
+        for (unsigned int i = 0 ; i < RADIO_MESSAGE_SIZE ; ++i)
         {
-            t = Radio::getPulseIn(pin, LOW,1000000);
+            msgArray.data[i] = 0;
+            validMsgArray.data[i] = 0;
+        }
 
-            plot.logPulse(t);
+        Radio radio(2, 99);
 
-            if(t > 200 && t < 1000)
+        if (radio.tryGetMessage(manchArray, validManchArray, true, PLOT_DATA))
+        {
+            if(radio.manchesterCheck(manchArray, validManchArray, msgArray, validMsgArray))
             {
-                bit = 0;
-            }
-            else if(t > 1000 && t < 2000)
-            {
-                bit = 1;
-            }
-            else
-            {
-                std::string errorMsg("Bad duration for a data bit (");
-                //errorMsg += longToString(t);
-                errorMsg += ")";
-                debug.addLog(LogType_Error, errorMsg.c_str());
-
-                dataBits = 0;
-                break;
-            }
-
-            if(dataBits % 2 == 1)
-            {
-                if((prevBit ^ bit) == 0)
+                if (PLOT_DATA && !PLOT_DATA_ON_FAIL)
                 {
-                    // must be either 01 or 10, cannot be 00 or 11
-                    std::string errorMsg("Manchester check failed (");
-                    //errorMsg += longToString(dataBits);
-                    errorMsg += ")";
-                    debug.addLog(LogType_Error, errorMsg.c_str());
-
-                    dataBits = 0;
-                    break;
+                    radio.plotLastMessage();
                 }
 
-                if(dataBits < 53)
+                for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE ; ++dataBits)
                 {
-                    // first 26 data bits
-                    sender <<= 1;
-                    sender |= prevBit;
+                    if(dataBits < 25)
+                    {
+                        // first 26 data bits
+                        sender <<= 1;
+                        sender |= msgArray.data[dataBits];
+                    }
+                    else if(dataBits == 26)
+                    {
+                        // 27th data bit
+                        group = msgArray.data[dataBits];
+                    }
+                    else if(dataBits == 27)
+                    {
+                        // 28th data bit
+                        on = msgArray.data[dataBits];
+                    }
+                    else
+                    {
+                        // last 4 data bits
+                        recipient <<= 1;
+                        recipient |= msgArray.data[dataBits];
+                    }
                 }
-                else if(dataBits == 53)
+
+                debug.addLog(LogType_Message, "------------------------------");
+                debug.addLog(LogType_Message, "Donnees detectees");
+
+                std::stringstream strSender;
+                strSender << "sender: " << sender;
+                debug.addLog(LogType_Message, strSender.str().c_str());
+
+                if(group)
                 {
-                    // 26th data bit
-                    group = prevBit;
-                }
-                else if(dataBits == 55)
-                {
-                    // 27th data bit
-                    on = prevBit;
+                    debug.addLog(LogType_Message, "group command");
                 }
                 else
                 {
-                    // last 4 data bits
-                    recipient <<= 1;
-                    recipient |= prevBit;
+                    debug.addLog(LogType_Message, "no group");
                 }
-            }
 
-            prevBit = bit;
+                if(on)
+                {
+                    debug.addLog(LogType_Message, "on");
+                }
+                else
+                {
+                    debug.addLog(LogType_Message, "off");
+                }
 
-            ++dataBits;
-        }
+                std::stringstream strRecipient;
+                strRecipient << "recipient: " << recipient;
+                debug.addLog(LogType_Message, strRecipient.str().c_str());
 
-        if(dataBits > 0)
-        {
-
-            plot.plotLog();
-
-            debug.addLog(LogType_Message, "------------------------------");
-            debug.addLog(LogType_Message, "Donnees detectees");
-
-            std::stringstream strSender;
-            strSender << "sender: " << sender;
-            debug.addLog(LogType_Message, strSender.str().c_str());
-
-            if(group)
-            {
-                debug.addLog(LogType_Message, "group command");
+                delay(1000);
             }
             else
             {
-                debug.addLog(LogType_Message, "no group");
-            }
+                if (PLOT_DATA && PLOT_DATA_ON_FAIL)
+                {
+                    radio.plotLastMessage();
+                }
 
-            if(on)
-            {
-                debug.addLog(LogType_Message, "on");
+                debug.addLog(LogType_Warning, "Aucune donnee...");
             }
-            else
-            {
-                debug.addLog(LogType_Message, "off");
-            }
-
-            std::stringstream strRecipient;
-            strRecipient << "recipient: " << recipient;
-            debug.addLog(LogType_Message, strRecipient.str().c_str());
-
-            delay(1000);
-        }
-        else
-        {
-            debug.addLog(LogType_Warning, "Aucune donnee...");
         }
 
         /*std::cout << "Again?" << std::endl;

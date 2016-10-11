@@ -21,6 +21,14 @@ void Plot::init()
     m_firstLine = true;
 }
 
+void Plot::stopLog()
+{
+    if (m_logFile.is_open())
+    {
+        m_logFile.close();
+    }
+}
+
 void Plot::logPulse(const unsigned int _pulse)
 {
     if (m_logFile.is_open())
@@ -54,12 +62,7 @@ void Plot::logPulse(const unsigned int _pulse)
 
 void Plot::plotLog()
 {
-    if (m_logFile.is_open())
-    {
-        m_logFile.close();
-
-        system("gnuplot -persistent ./plot.txt");
-    }
+    system("gnuplot -persistent ./plot.txt");
 }
 
 
