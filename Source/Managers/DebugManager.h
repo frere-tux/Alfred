@@ -11,11 +11,22 @@ namespace Al
         LogType_Error
     };
 
-    class DebugManager : public Manager
+    class Debug
     {
+    private:
+        Debug();
+
     public:
-        DebugManager();
-        virtual ~DebugManager() {}
+        static Debug& getInstance()
+        {
+            static Debug instance;
+            return instance;
+        }
+
+        virtual ~Debug() {}
+
+        Debug(const Debug&) = delete;
+        void operator=(const Debug&) = delete;
 
         void addLog(const LogType _type, const char* _message) const;
 

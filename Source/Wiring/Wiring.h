@@ -24,5 +24,6 @@ namespace Al
         static bool init();
         static void setPinMode(int _pin, int _mode);
         static int readDigital(int _pin);
+        static void writeDigital(int _pin, int _value);
     };
 }

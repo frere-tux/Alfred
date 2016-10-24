@@ -1,0 +1,12 @@
+*.layout
+*.dat
+*.o
+*.com
+*.class
+*.dll
+*.exe
+*.so
+*.log
+
+/bin
+/obj

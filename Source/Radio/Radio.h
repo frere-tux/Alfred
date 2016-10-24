@@ -15,13 +15,19 @@ namespace Al
         Radio(const unsigned int _receptorPin, const unsigned int _transmitterPin);
         ~Radio() {}
 
+        void process();
+
         bool manchesterCheck(const RadioManchesterArray& _manchArray, const RadioManchesterArray& _validManchArray, RadioMessageArray& _msgArray, RadioMessageArray& _validMsgArray);
         bool tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArray& _validArray, const bool _wait, const bool _preparePlot = false, const int _timeOut = 500000);
         void plotLastMessage();
 
+        void sendBit(const bool _bit);
+        void sendPair(const bool _bit);
+        void transmit(const bool _intOn, const bool _group, const unsigned int _intId);
+
     private:
         // Get input pulse in microseconds
-        unsigned int getPulseIn(int _timeout = 500000);
+        unsigned int getPulseIn(int _timeout = 1000000);
 
         unsigned int    m_receptorPin;
         unsigned int    m_transmitterPin;

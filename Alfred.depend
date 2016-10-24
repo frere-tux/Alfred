@@ -1,30 +1,32 @@
 # depslib dependency file v1.0
-1476222282 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1477257254 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
-	<fstream>
-	<sstream>
 	<iostream>
+	<unistd.h>
 	"Radio/Radio.h"
 	"Wiring/Wiring.h"
 	"Managers/DebugManager.h"
-	"Tools/Plot.h"
 	"Tools/StringTools.h"
 
-1476221889 /home/pi/Projects/Alfred/Source/Radio/Radio.h
+1477243169 /home/pi/Projects/Alfred/Source/Radio/Radio.h
 	"Tools/Plot.h"
 
-1475941626 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
+1476899703 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
-1476221932 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
+1477257228 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
 	"Radio.h"
 	<sys/time.h>
 	<time.h>
+	<sstream>
+	<cmath>
+	<iostream>
 	"Wiring/Wiring.h"
+	"Managers/DebugManager.h"
 
-1475942004 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
+1476899698 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
 	"Wiring.h"
 	"Managers/DebugManager.h"
 
@@ -40,11 +42,11 @@
 
 1475939121 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 
-1476045864 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
+1476298996 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
 	"DebugManager.h"
 	<iostream>
 
-1475940169 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
+1476298966 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
 	"Managers/Manager.h"
 
 1476221614 source:/home/pi/Projects/Alfred/Source/Tools/Plot.cpp
@@ -53,4 +55,9 @@
 1476221644 /home/pi/Projects/Alfred/Source/Tools/Plot.h
 	<fstream>
 	<chrono>
+
+1476900025 source:/home/pi/Projects/Alfred/Source/Tools/Utils.cpp
+	"Utils.h"
+
+1476900016 /home/pi/Projects/Alfred/Source/Tools/Utils.h
 

@@ -6,14 +6,13 @@ using namespace Al;
 
 bool Wiring::init()
 {
-    DebugManager debug;
     if(wiringPiSetup() == -1)
     {
-        debug.addLog(LogType_Error, "Librairie Wiring PI introuvable, veuillez lier cette librairie...");
+        Debug::getInstance().addLog(LogType_Error, "Librairie Wiring PI introuvable, veuillez lier cette librairie...");
         return false;
     }
 
-    debug.addLog(LogType_Message,"WiringPI lib initialized");
+    Debug::getInstance().addLog(LogType_Message,"WiringPI lib initialized");
     return true;
 }
 
@@ -25,4 +24,9 @@ void Wiring::setPinMode(int _pin, int _mode)
 int Wiring::readDigital(int _pin)
 {
     return digitalRead(_pin);
+}
+
+void Wiring::writeDigital(int _pin, int _value)
+{
+    digitalWrite(_pin, _value);
 }
