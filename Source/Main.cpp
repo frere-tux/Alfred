@@ -8,6 +8,7 @@
 #include "Wiring/Wiring.h"
 #include "Managers/DebugManager.h"
 #include "Tools/StringTools.h"
+#include "Communication/ComServer.h"
 
 
 using namespace Al;
@@ -60,8 +61,6 @@ int main (int argc, char** argv)
 
 	pid_t pid = fork();
 
-    bool buttonState = true;
-
     bool endLoop = false;
     while (!endLoop)
     {
@@ -71,16 +70,7 @@ int main (int argc, char** argv)
         }
         else if (pid > 0)
         {
-            radio.transmit(buttonState, false, 4);
-            delay(10);
-            radio.transmit(buttonState, false, 4);
-            delay(10);
-            radio.transmit(buttonState, false, 4);
-
-            buttonState = !buttonState;
-
-            delay(2000);
-
+            CommunicationHandler::startCommunicationServer(&radio);
         }
 
         /*std::cout << "Again?" << std::endl;

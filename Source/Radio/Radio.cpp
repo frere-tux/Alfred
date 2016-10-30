@@ -9,7 +9,7 @@
 #include "Wiring/Wiring.h"
 #include "Managers/DebugManager.h"
 
-#define EMITTER_ID 10660729 //380562
+#define EMITTER_ID 21321458 //380562
 
 #define PLOT_DATA false
 #define PLOT_DATA_ON_FAIL false
@@ -369,6 +369,19 @@ void Radio::sendPair(const bool _bit)
     }
 }
 
+void Radio::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _intId)
+{
+    if (_nbMsg != 0)
+    {
+        transmit(_intOn, _group, _intId);
+        for (unsigned int i = 1 ; i < _nbMsg ; ++i)
+        {
+            delay(10);
+            transmit(_intOn, _group, _intId);
+        }
+    }
+}
+
 void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _intId)
 {
 // Sequence de verrou anoncant le départ du signal au recepeteur
@@ -412,7 +425,6 @@ void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _i
     Wiring::writeDigital(m_transmitterPin, HIGH);   // coupure données, verrou
     delayMicroseconds(275);      // attendre 275µs
     Wiring::writeDigital(m_transmitterPin, LOW);    // verrou 2 de 2675µs pour signaler la fermeture du signal
-    Wiring::writeDigital(m_transmitterPin, HIGH);   // coupure données, verrou
 
     printf("\n");
 }

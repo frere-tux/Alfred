@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1477257254 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1477863571 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -9,14 +9,15 @@
 	"Wiring/Wiring.h"
 	"Managers/DebugManager.h"
 	"Tools/StringTools.h"
+	"Communication/ComServer.h"
 
-1477243169 /home/pi/Projects/Alfred/Source/Radio/Radio.h
+1477863445 /home/pi/Projects/Alfred/Source/Radio/Radio.h
 	"Tools/Plot.h"
 
 1476899703 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
-1477257228 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
+1477863632 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
 	"Radio.h"
 	<sys/time.h>
 	<time.h>
@@ -60,4 +61,51 @@
 	"Utils.h"
 
 1476900016 /home/pi/Projects/Alfred/Source/Tools/Utils.h
+
+1477429059 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.cpp
+	"AlfredCommunication.h"
+
+1477429059 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.h
+	<thrift/TDispatchProcessor.h>
+	<thrift/async/TConcurrentClientSyncInfo.h>
+	"test_types.h"
+
+1477429059 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/test_types.h
+	<iosfwd>
+	<thrift/Thrift.h>
+	<thrift/TApplicationException.h>
+	<thrift/protocol/TProtocol.h>
+	<thrift/transport/TTransport.h>
+	<thrift/cxxfunctional.h>
+
+1477429059 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication_server.skeleton.cpp
+	"AlfredCommunication.h"
+	<thrift/protocol/TBinaryProtocol.h>
+	<thrift/server/TSimpleServer.h>
+	<thrift/transport/TServerSocket.h>
+	<thrift/transport/TBufferTransports.h>
+
+1477429059 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/test_constants.cpp
+	"test_constants.h"
+
+1477429059 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/test_constants.h
+	"test_types.h"
+
+1477429059 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/test_types.cpp
+	"test_types.h"
+	<algorithm>
+	<ostream>
+	<thrift/TToString.h>
+
+1477863532 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
+	"./gen-cpp/AlfredCommunication.h"
+
+1477863547 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
+	"ComServer.h"
+	<thrift/protocol/TBinaryProtocol.h>
+	<thrift/server/TSimpleServer.h>
+	<thrift/transport/TServerSocket.h>
+	<thrift/transport/TBufferTransports.h>
+	<unistd.h>
+	"Radio/Radio.h"
 

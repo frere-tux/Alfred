@@ -23,6 +23,7 @@ namespace Al
 
         void sendBit(const bool _bit);
         void sendPair(const bool _bit);
+        void transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _intId);
         void transmit(const bool _intOn, const bool _group, const unsigned int _intId);
 
     private:
