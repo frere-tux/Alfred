@@ -50,6 +50,7 @@ struct SimpleRequest
 {
   1: InterID interID,
   2: bool state,
+  3: bool group,
 }
 
 /**

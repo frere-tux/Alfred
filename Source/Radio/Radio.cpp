@@ -14,9 +14,9 @@
 #define PLOT_DATA false
 #define PLOT_DATA_ON_FAIL false
 
-#define SIGNAL_ERROR_EPSILON 200
+#define SIGNAL_ERROR_EPSILON 250
 
-#define SIGNAL_INTER_TIME 275 //310 orinally, but tweaked
+#define SIGNAL_INTER_TIME 275 //310 orinally,  but tweaked
 #define SIGNAL_ZERO_TIME 400  //310 orinally, but tweaked
 #define SIGNAL_ONE_TIME 1225  //1340 orinally, but tweaked
 
@@ -152,19 +152,19 @@ bool Radio::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArra
         }
     }
 
-    for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE*2 ; ++dataBits)
+    /*for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE*2 ; ++dataBits)
     {
-        std::cout << _manchArray.data[dataBits];
+        //std::cout << _manchArray.data[dataBits];
 
         _validArray.data[dataBits] = 1;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
 
     for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE*2 ; ++dataBits)
     {
-        std::cout << _validArray.data[dataBits];
+        //std::cout << _validArray.data[dataBits];
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;*/
 
     if (_preparePlot)
     {
@@ -206,20 +206,20 @@ bool Radio::manchesterCheck(const RadioManchesterArray& _manchArray, const Radio
             }
             _msgArray.data[(dataBits -1)/2] = prevBit;
 
-            if (_validMsgArray.data[(dataBits -1)/2] == 1)
+            /*if (_validMsgArray.data[(dataBits -1)/2] == 1)
             {
                 std::cout << prevBit;
             }
             else
             {
                 std::cout << "x";
-            }
+            }*/
         }
 
         prevBit = bit;
         prevValid = valid;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
     return returnValue;
 }
 
@@ -235,10 +235,6 @@ void Radio::process()
     bool on = false;
     unsigned int recipient = 0;
 
-
-    Debug::getInstance().addLog(LogType_Message, "Waiting for signal");
-
-
     RadioManchesterArray manchArray, validManchArray;
     for (unsigned int i = 0 ; i < RADIO_MESSAGE_SIZE*2 ; ++i)
     {
@@ -252,8 +248,6 @@ void Radio::process()
         msgArray.data[i] = 0;
         validMsgArray.data[i] = 0;
     }
-
-
 
     if (tryGetMessage(manchArray, validManchArray, true, PLOT_DATA))
     {
@@ -290,12 +284,12 @@ void Radio::process()
                 }
             }
 
-            Debug::getInstance().addLog(LogType_Message, "------------------------------");
-            Debug::getInstance().addLog(LogType_Message, "Donnees detectees");
+            struct timeval curTime;
+            gettimeofday(&curTime, NULL);
 
-            std::stringstream strSender;
-            strSender << "sender: " << sender;
-            Debug::getInstance().addLog(LogType_Message, strSender.str().c_str());
+            Debug::getInstance().addLog(LogType_Message, "-------- %ds, %dus --------", curTime.tv_sec, curTime.tv_usec);
+
+            Debug::getInstance().addLog(LogType_Message, "sender: %d", sender);
 
             if(group)
             {
@@ -315,20 +309,17 @@ void Radio::process()
                 Debug::getInstance().addLog(LogType_Message, "off");
             }
 
-            std::stringstream strRecipient;
-            strRecipient << "recipient: " << recipient;
-            Debug::getInstance().addLog(LogType_Message, strRecipient.str().c_str());
-
+            Debug::getInstance().addLog(LogType_Message, "recipient: %d", recipient);
+            Debug::getInstance().addLog(LogType_Message, "------------------------------");
             delay(1000);
         }
         else
         {
             if (PLOT_DATA && PLOT_DATA_ON_FAIL)
             {
+                Debug::getInstance().addLog(LogType_Warning, "No data...");
                 plotLastMessage();
             }
-
-            Debug::getInstance().addLog(LogType_Warning, "Aucune donnee...");
         }
     }
 }
@@ -357,13 +348,13 @@ void Radio::sendPair(const bool _bit)
 {
     if(_bit)
     {
-        printf("1");
+        //printf("1");
         sendBit(true);
         sendBit(false);
     }
     else
     {
-        printf("0");
+        //printf("0");
         sendBit(false);
         sendBit(true);
     }
@@ -373,6 +364,7 @@ void Radio::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _g
 {
     if (_nbMsg != 0)
     {
+        Debug::getInstance().addLog(LogType_Message, "Transmitting signal: group(%s), id(%d), state(%s)", _group?"true":"false", _intId, _intOn?"on":"off");
         transmit(_intOn, _group, _intId);
         for (unsigned int i = 1 ; i < _nbMsg ; ++i)
         {
@@ -426,5 +418,5 @@ void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _i
     delayMicroseconds(275);      // attendre 275µs
     Wiring::writeDigital(m_transmitterPin, LOW);    // verrou 2 de 2675µs pour signaler la fermeture du signal
 
-    printf("\n");
+    //printf("\n");
 }

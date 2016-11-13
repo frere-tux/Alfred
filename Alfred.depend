@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1477863571 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1478993327 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -17,7 +17,7 @@
 1476899703 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
-1477863632 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
+1478992890 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
 	"Radio.h"
 	<sys/time.h>
 	<time.h>
@@ -43,12 +43,14 @@
 
 1475939121 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 
-1476298996 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
+1478991084 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
 	"DebugManager.h"
 	<iostream>
+	<cstdarg>
 
-1476298966 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
+1478991008 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
 	"Managers/Manager.h"
+	<string>
 
 1476221614 source:/home/pi/Projects/Alfred/Source/Tools/Plot.cpp
 	"Plot.h"
@@ -62,13 +64,13 @@
 
 1476900016 /home/pi/Projects/Alfred/Source/Tools/Utils.h
 
-1477429059 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.cpp
+1478022128 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.cpp
 	"AlfredCommunication.h"
 
-1477429059 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.h
+1478022128 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.h
 	<thrift/TDispatchProcessor.h>
 	<thrift/async/TConcurrentClientSyncInfo.h>
-	"test_types.h"
+	"AlCom_types.h"
 
 1477429059 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/test_types.h
 	<iosfwd>
@@ -100,12 +102,33 @@
 1477863532 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
 	"./gen-cpp/AlfredCommunication.h"
 
-1477863547 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
+1479000799 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
 	"ComServer.h"
 	<thrift/protocol/TBinaryProtocol.h>
 	<thrift/server/TSimpleServer.h>
 	<thrift/transport/TServerSocket.h>
 	<thrift/transport/TBufferTransports.h>
-	<unistd.h>
+	<wiringPi.h>
 	"Radio/Radio.h"
+	"Managers/DebugManager.h"
+
+1478022128 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.h
+	<iosfwd>
+	<thrift/Thrift.h>
+	<thrift/TApplicationException.h>
+	<thrift/protocol/TProtocol.h>
+	<thrift/transport/TTransport.h>
+	<thrift/cxxfunctional.h>
+
+1478022128 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_constants.cpp
+	"AlCom_constants.h"
+
+1478022128 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_constants.h
+	"AlCom_types.h"
+
+1478022128 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.cpp
+	"AlCom_types.h"
+	<algorithm>
+	<ostream>
+	<thrift/TToString.h>
 

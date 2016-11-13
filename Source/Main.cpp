@@ -37,7 +37,7 @@ void scheduler_standard()
 
 int main (int argc, char** argv)
 {
-	scheduler_realtime();
+    Debug::getInstance().activate(true);
 
     if (!Wiring::init())
 	{
@@ -66,7 +66,9 @@ int main (int argc, char** argv)
     {
         if (pid == 0)
         {
+            scheduler_realtime();
             radio.process();
+            scheduler_standard();
         }
         else if (pid > 0)
         {
@@ -82,6 +84,4 @@ int main (int argc, char** argv)
             endLoop = true;
         }*/
     }
-
-	scheduler_standard();
 }

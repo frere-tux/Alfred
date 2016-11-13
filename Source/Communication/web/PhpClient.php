@@ -57,6 +57,7 @@ try {
   $simpleRequest = new \AlCom\SimpleRequest();
   $simpleRequest->interID = $_['interID'];
   $simpleRequest->state = $_['state'];
+  $simpleRequest->group = $_['group'];
 
   $client->sendSimpleRequest($simpleRequest);
 

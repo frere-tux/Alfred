@@ -4,13 +4,13 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "test_constants.h"
+#include "AlCom_constants.h"
 
 namespace AlCom {
 
-const testConstants g_test_constants;
+const AlComConstants g_AlCom_constants;
 
-testConstants::testConstants() {
+AlComConstants::AlComConstants() {
 }
 
 } // namespace

@@ -37,6 +37,10 @@ class SimpleRequest {
    * @var bool
    */
   public $state = null;
+  /**
+   * @var bool
+   */
+  public $group = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -49,6 +53,10 @@ class SimpleRequest {
           'var' => 'state',
           'type' => TType::BOOL,
           ),
+        3 => array(
+          'var' => 'group',
+          'type' => TType::BOOL,
+          ),
         );
     }
     if (is_array($vals)) {
@@ -57,6 +65,9 @@ class SimpleRequest {
       }
       if (isset($vals['state'])) {
         $this->state = $vals['state'];
+      }
+      if (isset($vals['group'])) {
+        $this->group = $vals['group'];
       }
     }
   }
@@ -94,6 +105,13 @@ class SimpleRequest {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 3:
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->group);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -115,6 +133,11 @@ class SimpleRequest {
     if ($this->state !== null) {
       $xfer += $output->writeFieldBegin('state', TType::BOOL, 2);
       $xfer += $output->writeBool($this->state);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->group !== null) {
+      $xfer += $output->writeFieldBegin('group', TType::BOOL, 3);
+      $xfer += $output->writeBool($this->group);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

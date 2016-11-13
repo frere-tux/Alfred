@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "test_types.h"
+#include "AlCom_types.h"
 
 #include <algorithm>
 #include <ostream>
@@ -24,6 +24,10 @@ void SimpleRequest::__set_interID(const InterID val) {
 
 void SimpleRequest::__set_state(const bool val) {
   this->state = val;
+}
+
+void SimpleRequest::__set_group(const bool val) {
+  this->group = val;
 }
 
 uint32_t SimpleRequest::read(::apache::thrift::protocol::TProtocol* iprot) {
@@ -63,6 +67,14 @@ uint32_t SimpleRequest::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_BOOL) {
+          xfer += iprot->readBool(this->group);
+          this->__isset.group = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
       default:
         xfer += iprot->skip(ftype);
         break;
@@ -88,6 +100,10 @@ uint32_t SimpleRequest::write(::apache::thrift::protocol::TProtocol* oprot) cons
   xfer += oprot->writeBool(this->state);
   xfer += oprot->writeFieldEnd();
 
+  xfer += oprot->writeFieldBegin("group", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeBool(this->group);
+  xfer += oprot->writeFieldEnd();
+
   xfer += oprot->writeFieldStop();
   xfer += oprot->writeStructEnd();
   return xfer;
@@ -97,17 +113,20 @@ void swap(SimpleRequest &a, SimpleRequest &b) {
   using ::std::swap;
   swap(a.interID, b.interID);
   swap(a.state, b.state);
+  swap(a.group, b.group);
   swap(a.__isset, b.__isset);
 }
 
 SimpleRequest::SimpleRequest(const SimpleRequest& other0) {
   interID = other0.interID;
   state = other0.state;
+  group = other0.group;
   __isset = other0.__isset;
 }
 SimpleRequest& SimpleRequest::operator=(const SimpleRequest& other1) {
   interID = other1.interID;
   state = other1.state;
+  group = other1.group;
   __isset = other1.__isset;
   return *this;
 }
@@ -116,6 +135,7 @@ void SimpleRequest::printTo(std::ostream& out) const {
   out << "SimpleRequest(";
   out << "interID=" << to_string(interID);
   out << ", " << "state=" << to_string(state);
+  out << ", " << "group=" << to_string(group);
   out << ")";
 }
 

@@ -4,20 +4,20 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef test_CONSTANTS_H
-#define test_CONSTANTS_H
+#ifndef AlCom_CONSTANTS_H
+#define AlCom_CONSTANTS_H
 
-#include "test_types.h"
+#include "AlCom_types.h"
 
 namespace AlCom {
 
-class testConstants {
+class AlComConstants {
  public:
-  testConstants();
+  AlComConstants();
 
 };
 
-extern const testConstants g_test_constants;
+extern const AlComConstants g_AlCom_constants;
 
 } // namespace
 

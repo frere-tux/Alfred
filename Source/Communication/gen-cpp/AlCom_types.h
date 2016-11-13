@@ -4,8 +4,8 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef test_TYPES_H
-#define test_TYPES_H
+#ifndef AlCom_TYPES_H
+#define AlCom_TYPES_H
 
 #include <iosfwd>
 
@@ -24,9 +24,10 @@ typedef int32_t InterID;
 class SimpleRequest;
 
 typedef struct _SimpleRequest__isset {
-  _SimpleRequest__isset() : interID(false), state(false) {}
+  _SimpleRequest__isset() : interID(false), state(false), group(false) {}
   bool interID :1;
   bool state :1;
+  bool group :1;
 } _SimpleRequest__isset;
 
 class SimpleRequest {
@@ -34,12 +35,13 @@ class SimpleRequest {
 
   SimpleRequest(const SimpleRequest&);
   SimpleRequest& operator=(const SimpleRequest&);
-  SimpleRequest() : interID(0), state(0) {
+  SimpleRequest() : interID(0), state(0), group(0) {
   }
 
   virtual ~SimpleRequest() throw();
   InterID interID;
   bool state;
+  bool group;
 
   _SimpleRequest__isset __isset;
 
@@ -47,11 +49,15 @@ class SimpleRequest {
 
   void __set_state(const bool val);
 
+  void __set_group(const bool val);
+
   bool operator == (const SimpleRequest & rhs) const
   {
     if (!(interID == rhs.interID))
       return false;
     if (!(state == rhs.state))
+      return false;
+    if (!(group == rhs.group))
       return false;
     return true;
   }

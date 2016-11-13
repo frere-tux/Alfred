@@ -9,7 +9,7 @@
 
 #include <thrift/TDispatchProcessor.h>
 #include <thrift/async/TConcurrentClientSyncInfo.h>
-#include "test_types.h"
+#include "AlCom_types.h"
 
 namespace AlCom {
 
