@@ -9,6 +9,7 @@
 #include "Managers/DebugManager.h"
 #include "Tools/StringTools.h"
 #include "Communication/ComServer.h"
+#include "Managers/ObjectsManager.h"
 
 
 using namespace Al;
@@ -38,6 +39,7 @@ void scheduler_standard()
 int main (int argc, char** argv)
 {
     Debug::getInstance().activate(true);
+    ObjectsManager::getInstance().Init();
 
     if (!Wiring::init())
 	{

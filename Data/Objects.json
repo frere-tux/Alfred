@@ -1,0 +1,38 @@
+{
+    "rooms" : [
+        {
+            "id" : 0,
+            "name" : "Salon",
+            "groupId" : 21321458,
+            "objects" : [
+                {
+                    "id" : 0,
+                    "name" : "Lampe Orange",
+                    "elementId" : 0
+                },
+                {
+                    "id" : 1,
+                    "name" : "Lampe Télé",
+                    "elementId" : 1
+                },
+                {
+                    "id" : 2,
+                    "name" : "Lampe Entrée",
+                    "elementId" : 2
+                }
+            ]
+        },
+        {
+            "id" : 1,
+            "name" : "Cuisine",
+            "groupId" : 23987690,
+            "objects" : [
+                {
+                    "id" : 0,
+                    "name" : "Plafonnier",
+                    "elementId" : 0
+                }
+            ]
+        }
+    ]
+}

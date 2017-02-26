@@ -19,13 +19,16 @@
 
 namespace AlCom {
 
-typedef int32_t InterID;
+typedef int32_t GroupID;
+
+typedef int32_t ElementID;
 
 class SimpleRequest;
 
 typedef struct _SimpleRequest__isset {
-  _SimpleRequest__isset() : interID(false), state(false), group(false) {}
-  bool interID :1;
+  _SimpleRequest__isset() : groupID(false), elementID(false), state(false), group(false) {}
+  bool groupID :1;
+  bool elementID :1;
   bool state :1;
   bool group :1;
 } _SimpleRequest__isset;
@@ -35,17 +38,20 @@ class SimpleRequest {
 
   SimpleRequest(const SimpleRequest&);
   SimpleRequest& operator=(const SimpleRequest&);
-  SimpleRequest() : interID(0), state(0), group(0) {
+  SimpleRequest() : groupID(0), elementID(0), state(0), group(0) {
   }
 
   virtual ~SimpleRequest() throw();
-  InterID interID;
+  GroupID groupID;
+  ElementID elementID;
   bool state;
   bool group;
 
   _SimpleRequest__isset __isset;
 
-  void __set_interID(const InterID val);
+  void __set_groupID(const GroupID val);
+
+  void __set_elementID(const ElementID val);
 
   void __set_state(const bool val);
 
@@ -53,7 +59,9 @@ class SimpleRequest {
 
   bool operator == (const SimpleRequest & rhs) const
   {
-    if (!(interID == rhs.interID))
+    if (!(groupID == rhs.groupID))
+      return false;
+    if (!(elementID == rhs.elementID))
       return false;
     if (!(state == rhs.state))
       return false;

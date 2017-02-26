@@ -18,8 +18,12 @@ SimpleRequest::~SimpleRequest() throw() {
 }
 
 
-void SimpleRequest::__set_interID(const InterID val) {
-  this->interID = val;
+void SimpleRequest::__set_groupID(const GroupID val) {
+  this->groupID = val;
+}
+
+void SimpleRequest::__set_elementID(const ElementID val) {
+  this->elementID = val;
 }
 
 void SimpleRequest::__set_state(const bool val) {
@@ -53,13 +57,21 @@ uint32_t SimpleRequest::read(::apache::thrift::protocol::TProtocol* iprot) {
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->interID);
-          this->__isset.interID = true;
+          xfer += iprot->readI32(this->groupID);
+          this->__isset.groupID = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->elementID);
+          this->__isset.elementID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->state);
           this->__isset.state = true;
@@ -67,7 +79,7 @@ uint32_t SimpleRequest::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 3:
+      case 4:
         if (ftype == ::apache::thrift::protocol::T_BOOL) {
           xfer += iprot->readBool(this->group);
           this->__isset.group = true;
@@ -92,15 +104,19 @@ uint32_t SimpleRequest::write(::apache::thrift::protocol::TProtocol* oprot) cons
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("SimpleRequest");
 
-  xfer += oprot->writeFieldBegin("interID", ::apache::thrift::protocol::T_I32, 1);
-  xfer += oprot->writeI32(this->interID);
+  xfer += oprot->writeFieldBegin("groupID", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->groupID);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("state", ::apache::thrift::protocol::T_BOOL, 2);
+  xfer += oprot->writeFieldBegin("elementID", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->elementID);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("state", ::apache::thrift::protocol::T_BOOL, 3);
   xfer += oprot->writeBool(this->state);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("group", ::apache::thrift::protocol::T_BOOL, 3);
+  xfer += oprot->writeFieldBegin("group", ::apache::thrift::protocol::T_BOOL, 4);
   xfer += oprot->writeBool(this->group);
   xfer += oprot->writeFieldEnd();
 
@@ -111,20 +127,23 @@ uint32_t SimpleRequest::write(::apache::thrift::protocol::TProtocol* oprot) cons
 
 void swap(SimpleRequest &a, SimpleRequest &b) {
   using ::std::swap;
-  swap(a.interID, b.interID);
+  swap(a.groupID, b.groupID);
+  swap(a.elementID, b.elementID);
   swap(a.state, b.state);
   swap(a.group, b.group);
   swap(a.__isset, b.__isset);
 }
 
 SimpleRequest::SimpleRequest(const SimpleRequest& other0) {
-  interID = other0.interID;
+  groupID = other0.groupID;
+  elementID = other0.elementID;
   state = other0.state;
   group = other0.group;
   __isset = other0.__isset;
 }
 SimpleRequest& SimpleRequest::operator=(const SimpleRequest& other1) {
-  interID = other1.interID;
+  groupID = other1.groupID;
+  elementID = other1.elementID;
   state = other1.state;
   group = other1.group;
   __isset = other1.__isset;
@@ -133,7 +152,8 @@ SimpleRequest& SimpleRequest::operator=(const SimpleRequest& other1) {
 void SimpleRequest::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "SimpleRequest(";
-  out << "interID=" << to_string(interID);
+  out << "groupID=" << to_string(groupID);
+  out << ", " << "elementID=" << to_string(elementID);
   out << ", " << "state=" << to_string(state);
   out << ", " << "group=" << to_string(group);
   out << ")";

@@ -34,11 +34,14 @@
 			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add directory="Source" />
+			<Add directory="../External" />
+			<Add directory="../External/rapidjson/include" />
 		</Compiler>
 		<Linker>
 			<Add library="/usr/lib/libwiringPi.so" />
 			<Add library="/usr/local/lib/libthrift.so" />
 		</Linker>
+		<Unit filename="Source/AlTypes.h" />
 		<Unit filename="Source/Communication/ComServer.cpp" />
 		<Unit filename="Source/Communication/ComServer.h" />
 		<Unit filename="Source/Communication/gen-cpp/AlCom_constants.cpp" />
@@ -54,6 +57,8 @@
 		<Unit filename="Source/Managers/DebugManager.h" />
 		<Unit filename="Source/Managers/Manager.cpp" />
 		<Unit filename="Source/Managers/Manager.h" />
+		<Unit filename="Source/Managers/ObjectsManager.cpp" />
+		<Unit filename="Source/Managers/ObjectsManager.h" />
 		<Unit filename="Source/Radio/Radio.cpp" />
 		<Unit filename="Source/Radio/Radio.h" />
 		<Unit filename="Source/Tools/Plot.cpp" />

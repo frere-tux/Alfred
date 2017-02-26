@@ -8,8 +8,7 @@
 
 #include "Wiring/Wiring.h"
 #include "Managers/DebugManager.h"
-
-#define EMITTER_ID 21321458 //380562
+#include "Managers/ObjectsManager.h"
 
 #define PLOT_DATA false
 #define PLOT_DATA_ON_FAIL false
@@ -360,21 +359,25 @@ void Radio::sendPair(const bool _bit)
     }
 }
 
-void Radio::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _intId)
+void Radio::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _roomId, const unsigned int _objectId)
 {
     if (_nbMsg != 0)
     {
-        Debug::getInstance().addLog(LogType_Message, "Transmitting signal: group(%s), id(%d), state(%s)", _group?"true":"false", _intId, _intOn?"on":"off");
-        transmit(_intOn, _group, _intId);
-        for (unsigned int i = 1 ; i < _nbMsg ; ++i)
+        if (const Object* object = ObjectsManager::getInstance().GetObject(_roomId, _objectId))
         {
-            delay(10);
-            transmit(_intOn, _group, _intId);
+            Debug::getInstance().addLog(LogType_Message, "Transmitting signal: group(%s), roomId(%d), objectId(%d), state(%s)", _group?"true":"false", _roomId, _objectId, _intOn?"on":"off");
+
+            transmit(_intOn, _group, object->m_groupId, object->m_elementId);
+            for (unsigned int i = 1 ; i < _nbMsg ; ++i)
+            {
+                delay(10);
+                transmit(_intOn, _group, object->m_groupId, object->m_elementId);
+            }
         }
     }
 }
 
-void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _intId)
+void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _groupId, const unsigned int _intId)
 {
 // Sequence de verrou anoncant le départ du signal au recepeteur
     Wiring::writeDigital(m_transmitterPin, HIGH);
@@ -389,7 +392,7 @@ void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _i
 
 // Envoie du code emetteur
 
-    unsigned int emitterId = EMITTER_ID;
+    unsigned int emitterId = _groupId;
     unsigned int testBit = std::pow(2, 25);
     for(int i = 0 ; i < 26 ; ++i)
     {

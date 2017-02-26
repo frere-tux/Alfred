@@ -32,7 +32,11 @@ class SimpleRequest {
   /**
    * @var int
    */
-  public $interID = null;
+  public $groupID = null;
+  /**
+   * @var int
+   */
+  public $elementID = null;
   /**
    * @var bool
    */
@@ -46,22 +50,29 @@ class SimpleRequest {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
-          'var' => 'interID',
+          'var' => 'groupID',
           'type' => TType::I32,
           ),
         2 => array(
+          'var' => 'elementID',
+          'type' => TType::I32,
+          ),
+        3 => array(
           'var' => 'state',
           'type' => TType::BOOL,
           ),
-        3 => array(
+        4 => array(
           'var' => 'group',
           'type' => TType::BOOL,
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['interID'])) {
-        $this->interID = $vals['interID'];
+      if (isset($vals['groupID'])) {
+        $this->groupID = $vals['groupID'];
+      }
+      if (isset($vals['elementID'])) {
+        $this->elementID = $vals['elementID'];
       }
       if (isset($vals['state'])) {
         $this->state = $vals['state'];
@@ -93,19 +104,26 @@ class SimpleRequest {
       {
         case 1:
           if ($ftype == TType::I32) {
-            $xfer += $input->readI32($this->interID);
+            $xfer += $input->readI32($this->groupID);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 2:
+          if ($ftype == TType::I32) {
+            $xfer += $input->readI32($this->elementID);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
           if ($ftype == TType::BOOL) {
             $xfer += $input->readBool($this->state);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 3:
+        case 4:
           if ($ftype == TType::BOOL) {
             $xfer += $input->readBool($this->group);
           } else {
@@ -125,18 +143,23 @@ class SimpleRequest {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('SimpleRequest');
-    if ($this->interID !== null) {
-      $xfer += $output->writeFieldBegin('interID', TType::I32, 1);
-      $xfer += $output->writeI32($this->interID);
+    if ($this->groupID !== null) {
+      $xfer += $output->writeFieldBegin('groupID', TType::I32, 1);
+      $xfer += $output->writeI32($this->groupID);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->elementID !== null) {
+      $xfer += $output->writeFieldBegin('elementID', TType::I32, 2);
+      $xfer += $output->writeI32($this->elementID);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->state !== null) {
-      $xfer += $output->writeFieldBegin('state', TType::BOOL, 2);
+      $xfer += $output->writeFieldBegin('state', TType::BOOL, 3);
       $xfer += $output->writeBool($this->state);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->group !== null) {
-      $xfer += $output->writeFieldBegin('group', TType::BOOL, 3);
+      $xfer += $output->writeFieldBegin('group', TType::BOOL, 4);
       $xfer += $output->writeBool($this->group);
       $xfer += $output->writeFieldEnd();
     }

@@ -30,36 +30,9 @@ void CommunicationHandler::sendSimpleRequest(const SimpleRequest& request)
 {
     if (m_radio)
     {
-        Debug::getInstance().addLog(LogType_Message, "Simple request received: group(%s), id(%d), state(%s)", request.group?"true":"false", request.interID, request.state?"on":"off");
-        if (request.group && request.interID == 1)
-        {
-            m_radio->transmit(3, true, false, 0);
-            m_radio->transmit(3, false, false, 1);
-            m_radio->transmit(3, false, false, 2);
-            delay(500);
-            m_radio->transmit(3, false, false, 0);
-            m_radio->transmit(3, true, false, 1);
-            delay(500);
-            m_radio->transmit(3, false, false, 1);
-            m_radio->transmit(3, true, false, 2);
-            delay(500);
-            m_radio->transmit(3, false, false, 2);
-            m_radio->transmit(3, true, false, 0);
-            delay(500);
-            m_radio->transmit(3, false, false, 0);
-            m_radio->transmit(3, true, false, 1);
-            delay(500);
-            m_radio->transmit(3, false, false, 1);
-            m_radio->transmit(3, true, false, 2);
-            delay(500);
-            m_radio->transmit(3, true, false, 0);
-            delay(500);
-            m_radio->transmit(3, true, false, 1);
-        }
-        else
-        {
-            m_radio->transmit(3, request.state, request.group, request.interID);
-        }
+        Debug::getInstance().addLog(LogType_Message, "Simple request received: group(%s), roomId(%d), objectId(%d), state(%s)", request.group?"true":"false", request.groupID, request.elementID, request.state?"on":"off");
+
+        m_radio->transmit(3, request.state, request.group, request.groupID, request.elementID);
     }
 }
 

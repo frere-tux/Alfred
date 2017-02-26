@@ -55,7 +55,8 @@ try {
   $transport->open();
 
   $simpleRequest = new \AlCom\SimpleRequest();
-  $simpleRequest->interID = $_['interID'];
+  $simpleRequest->groupID = $_['groupID'];
+  $simpleRequest->elementID = $_['elementID'];
   $simpleRequest->state = $_['state'];
   $simpleRequest->group = $_['group'];
 

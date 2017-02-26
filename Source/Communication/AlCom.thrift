@@ -34,7 +34,8 @@
 namespace cpp AlCom
 namespace php AlCom
 
-typedef i32 InterID
+typedef i32 GroupID
+typedef i32 ElementID
 
 /**
  * Structs are the basic complex data structures. They are comprised of fields
@@ -48,9 +49,10 @@ typedef i32 InterID
 
 struct SimpleRequest
 {
-  1: InterID interID,
-  2: bool state,
-  3: bool group,
+  1: GroupID groupID,
+  2: ElementID elementID,
+  3: bool state,
+  4: bool group,
 }
 
 /**
