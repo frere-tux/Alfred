@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 #include "Managers/Manager.h"
 
@@ -29,6 +30,8 @@ namespace Al
 
         Debug(const Debug&) = delete;
         void operator=(const Debug&) = delete;
+
+        void Init();
 
         void activate(const bool _active) { m_active = _active; };
         void addLog(const LogType _type, const std::string& _message) const;

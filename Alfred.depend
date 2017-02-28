@@ -1,24 +1,24 @@
 # depslib dependency file v1.0
-1488140019 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1488314514 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
 	<unistd.h>
+	"Managers/Manager.h"
 	"Radio/Radio.h"
 	"Wiring/Wiring.h"
 	"Managers/DebugManager.h"
 	"Tools/StringTools.h"
 	"Communication/ComServer.h"
-	"Managers/ObjectsManager.h"
 
-1488142006 /home/pi/Projects/Alfred/Source/Radio/Radio.h
+1488313911 /home/pi/Projects/Alfred/Source/Radio/Radio.h
 	"Tools/Plot.h"
 
 1476899703 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
-1479001341 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
+1488314004 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
 	"Radio.h"
 	<sys/time.h>
 	<time.h>
@@ -27,6 +27,8 @@
 	<iostream>
 	"Wiring/Wiring.h"
 	"Managers/DebugManager.h"
+	"Managers/ObjectsManager.h"
+	"Managers/ConfigManager.h"
 
 1476899698 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
 	"Wiring.h"
@@ -39,17 +41,21 @@
 1476045750 /home/pi/Projects/Alfred/Source/Tools/StringTools.h
 	<iostream>
 
-1475940169 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
+1488313238 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
 	"Manager.h"
+	"Managers/ConfigManager.h"
+	"Managers/DebugManager.h"
+	"Managers/ObjectsManager.h"
 
-1475939121 /home/pi/Projects/Alfred/Source/Managers/Manager.h
+1488308666 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 
-1478991084 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
+1488313957 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
 	"DebugManager.h"
 	<iostream>
 	<cstdarg>
+	"Managers/ConfigManager.h"
 
-1478991008 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
+1488313152 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
 	"Managers/Manager.h"
 	<string>
 
@@ -133,7 +139,7 @@
 	<ostream>
 	<thrift/TToString.h>
 
-1488141585 source:/home/pi/Projects/Alfred/Source/Managers/ObjectsManager.cpp
+1488312989 source:/home/pi/Projects/Alfred/Source/Managers/ObjectsManager.cpp
 	"ObjectsManager.h"
 	"rapidjson/document.h"
 	"rapidjson/filereadstream.h"
@@ -144,7 +150,7 @@
 	<string>
 	<map>
 
-1487985031 /home/pi/Projects/Alfred/Source/AlTypes.h
+1488308663 /home/pi/Projects/Alfred/Source/AlTypes.h
 
 1487982349 /home/pi/Projects/External/rapidjson/include/rapidjson/document.h
 	"reader.h"
@@ -252,4 +258,14 @@
 1487982349 /home/pi/Projects/External/rapidjson/include/rapidjson/filereadstream.h
 	"stream.h"
 	<cstdio>
+
+1488312523 source:/home/pi/Projects/Alfred/Source/Managers/ConfigManager.cpp
+	"Managers/ConfigManager.h"
+	"rapidjson/document.h"
+	"rapidjson/filereadstream.h"
+	"Managers/DebugManager.h"
+
+1488309200 /home/pi/Projects/Alfred/Source/Managers/ConfigManager.h
+	"Managers/Manager.h"
+	"AlTypes.h"
 

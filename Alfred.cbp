@@ -53,6 +53,8 @@
 		<Unit filename="Source/Communication/gen-cpp/test_constants.h" />
 		<Unit filename="Source/Communication/gen-cpp/test_types.h" />
 		<Unit filename="Source/Main.cpp" />
+		<Unit filename="Source/Managers/ConfigManager.cpp" />
+		<Unit filename="Source/Managers/ConfigManager.h" />
 		<Unit filename="Source/Managers/DebugManager.cpp" />
 		<Unit filename="Source/Managers/DebugManager.h" />
 		<Unit filename="Source/Managers/Manager.cpp" />

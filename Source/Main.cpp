@@ -4,12 +4,12 @@
 #include <iostream>
 #include <unistd.h>
 
+#include "Managers/Manager.h"
 #include "Radio/Radio.h"
 #include "Wiring/Wiring.h"
 #include "Managers/DebugManager.h"
 #include "Tools/StringTools.h"
 #include "Communication/ComServer.h"
-#include "Managers/ObjectsManager.h"
 
 
 using namespace Al;
@@ -38,28 +38,15 @@ void scheduler_standard()
 
 int main (int argc, char** argv)
 {
-    Debug::getInstance().activate(true);
-    ObjectsManager::getInstance().Init();
+    Manager::InitManagers();
 
     if (!Wiring::init())
 	{
         return -1;
 	}
 
-	if (argc != 3)
-	{
-        return -1;
-	}
-
-	// Get radio receptor pin number from arguments
-	unsigned int receptorPin = atoi(argv[1]);
-	Wiring::setPinMode(receptorPin, PinMode_Input);
-
-	// Get radio emitter pin number from arguments
-	unsigned int emitterPin = atoi(argv[2]);
-	Wiring::setPinMode(emitterPin, PinMode_Output);
-
-	Radio radio(receptorPin, emitterPin);
+	Radio radio;
+	radio.Init();
 
 	pid_t pid = fork();
 
@@ -76,14 +63,5 @@ int main (int argc, char** argv)
         {
             CommunicationHandler::startCommunicationServer(&radio);
         }
-
-        /*std::cout << "Again?" << std::endl;
-        char inputChar;
-        std::cin >> inputChar;
-
-        if (inputChar != 'y' && inputChar != 'Y')
-        {
-            endLoop = true;
-        }*/
     }
 }

@@ -1,3 +1,5 @@
+#pragma once
+
 namespace Al
 {
     #define UNDEFINED_ROOM_ID 0xff

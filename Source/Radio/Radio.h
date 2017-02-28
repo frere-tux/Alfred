@@ -12,8 +12,10 @@ namespace Al
     class Radio
     {
     public:
-        Radio(const unsigned int _receptorPin, const unsigned int _transmitterPin);
+        Radio();
         ~Radio() {}
+
+        void Init();
 
         void process();
 

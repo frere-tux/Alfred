@@ -4,12 +4,23 @@ namespace Al
 {
     class Manager
     {
-    public:
+    protected:
         Manager() {}
-        ~Manager() {}
 
+    public:
+        static Manager& getInstance()
+        {
+            static Manager instance;
+            return instance;
+        }
 
-    private:
+        virtual ~Manager() {}
 
+        Manager(const Manager&) = delete;
+        void operator=(const Manager&) = delete;
+
+        virtual void Init() {}
+
+        static void InitManagers();
     };
 }

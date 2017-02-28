@@ -9,6 +9,7 @@
 #include "Wiring/Wiring.h"
 #include "Managers/DebugManager.h"
 #include "Managers/ObjectsManager.h"
+#include "Managers/ConfigManager.h"
 
 #define PLOT_DATA false
 #define PLOT_DATA_ON_FAIL false
@@ -21,11 +22,17 @@
 
 using namespace Al;
 
-Radio::Radio(const unsigned int _receptorPin, const unsigned int _transmitterPin)
-    : m_receptorPin(_receptorPin)
-    , m_transmitterPin(_transmitterPin)
+Radio::Radio()
+    : m_receptorPin(2)
+    , m_transmitterPin(7)
 {
 
+}
+
+void Radio::Init()
+{
+    m_receptorPin = Config::getInstance().GetReceptorPin();
+    m_transmitterPin = Config::getInstance().GetEmitterPin();
 }
 
 unsigned int Radio::getPulseIn(int _timeout /*=500000*/)

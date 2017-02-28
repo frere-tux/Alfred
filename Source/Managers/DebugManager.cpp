@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdarg>
 
+#include "Managers/ConfigManager.h"
+
 using namespace Al;
 
 Debug::Debug()
@@ -11,6 +13,11 @@ Debug::Debug()
     , m_displayWarnings(true)
     , m_displayErrors(true)
 {
+}
+
+void Debug::Init()
+{
+    m_active = Config::getInstance().GetEnableDebug();
 }
 
 void Debug::addLog(const LogType _type, const std::string& _message) const

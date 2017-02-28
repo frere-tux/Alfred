@@ -9,7 +9,7 @@ using namespace Al;
 
 void ObjectsManager::Init()
 {
-    FILE * pFile = fopen ("/home/pi/Projects/Alfred/Data/Objects.json" , "r");
+    FILE * pFile = fopen ("/home/pi/Projects/Alfred/Data/Objects.dat" , "r");
 
     char buffer[65536];
 
@@ -60,7 +60,7 @@ void ObjectsManager::Init()
             const rapidjson::Value& objectElementId = objectValue["elementId"];
             assert(objectElementId.IsUint());
 
-            Debug::getInstance().addLog(LogType_Message, "  %s (id: %u, elementId: %u)", objectName.GetString(), objectId.GetUint(), objectElementId.GetUint());
+            Debug::getInstance().addLog(LogType_Message, "    %s (id: %u, elementId: %u)", objectName.GetString(), objectId.GetUint(), objectElementId.GetUint());
 
             assert(room.m_objects.find(objectId.GetUint()) == room.m_objects.end());
 
@@ -71,9 +71,10 @@ void ObjectsManager::Init()
 
         m_rooms[room.m_id] = room;
 
-        Debug::getInstance().addLog(LogType_Message, "---------------------------------------------");
+        Debug::getInstance().addLog(LogType_Message, "               ---------------");
     }
 
+    Debug::getInstance().addLog(LogType_Message, "---------------------------------------------");
 }
 
 const Object* ObjectsManager::GetObject(const u32 _roomId, u32 _objectId)
