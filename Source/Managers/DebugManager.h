@@ -11,7 +11,8 @@ namespace Al
     {
         LogType_Message,
         LogType_Warning,
-        LogType_Error
+        LogType_Error,
+        LogType_Important
     };
 
     class Debug
@@ -42,5 +43,6 @@ namespace Al
         bool    m_displayMessages;
         bool    m_displayWarnings;
         bool    m_displayErrors;
+        bool    m_displayImportant;
     };
 }

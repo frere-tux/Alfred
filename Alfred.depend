@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1488314514 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1512947917 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -18,7 +18,7 @@
 1476899703 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
-1488314004 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
+1509023433 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
 	"Radio.h"
 	<sys/time.h>
 	<time.h>
@@ -49,13 +49,14 @@
 
 1488308666 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 
-1488313957 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
+1512779178 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
 	"DebugManager.h"
 	<iostream>
 	<cstdarg>
+	<fstream>
 	"Managers/ConfigManager.h"
 
-1488313152 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
+1512754295 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
 	"Managers/Manager.h"
 	<string>
 

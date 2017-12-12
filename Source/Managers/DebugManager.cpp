@@ -2,8 +2,11 @@
 
 #include <iostream>
 #include <cstdarg>
+#include <fstream>
 
 #include "Managers/ConfigManager.h"
+
+#define LOG_TO_FILE 0
 
 using namespace Al;
 
@@ -12,6 +15,7 @@ Debug::Debug()
     , m_displayMessages(true)
     , m_displayWarnings(true)
     , m_displayErrors(true)
+    , m_displayImportant(true)
 {
 }
 
@@ -24,10 +28,19 @@ void Debug::addLog(const LogType _type, const std::string& _message) const
 {
     if ( ( (_type == LogType_Message && m_displayMessages)
        || (_type == LogType_Warning && m_displayWarnings)
-       || (_type == LogType_Error && m_displayErrors) )
+       || (_type == LogType_Error && m_displayErrors)
+       || (_type == LogType_Important && m_displayImportant) )
        && m_active)
     {
         std::cout << _message << std::endl;
+
+        if (LOG_TO_FILE && (_type == LogType_Error || _type == LogType_Important))
+        {
+            std::ofstream out;
+            out.open("/home/pi/Projects/Alfred/Data/Alfred.log", std::ios::app);
+            out << _message;
+            out.close();
+        }
     }
 }
 
