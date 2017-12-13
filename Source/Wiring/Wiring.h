@@ -8,7 +8,7 @@ namespace Al
     {
         PinMode_Input = INPUT,
         PinMode_Output = OUTPUT,
-        PpinMode_PWMOutput = PWM_OUTPUT,
+        PinMode_PWMOutput = PWM_OUTPUT,
         PinMode_GPIOClock = GPIO_CLOCK,
         PinMode_SoftPWMOutput = SOFT_PWM_OUTPUT,
         PinMode_SoftToneOutput = SOFT_TONE_OUTPUT,

@@ -1,28 +1,17 @@
 #pragma once
 
-#include "Managers/Manager.h"
+#include <Managers/Manager.h>
 #include "AlTypes.h"
 
 namespace Al
 {
-    class Config : public Manager
+    class ConfigManager : public Manager
     {
-    protected:
-        Config();
-
     public:
-        static Config& getInstance()
-        {
-            static Config instance;
-            return instance;
-        }
+        ConfigManager();
+        virtual ~ConfigManager() {}
 
-        ~Config() {}
-
-        Config(const Config&) = delete;
-        void operator=(const Config&) = delete;
-
-        void Init();
+        virtual void Init() override;
 
         u8 GetReceptorPin() const { return m_receptorPin; }
         u8 GetEmitterPin() const { return m_emitterPin; }

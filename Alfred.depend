@@ -1,38 +1,38 @@
 # depslib dependency file v1.0
-1512947917 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1513201388 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
 	<unistd.h>
-	"Managers/Manager.h"
-	"Radio/Radio.h"
-	"Wiring/Wiring.h"
-	"Managers/DebugManager.h"
-	"Tools/StringTools.h"
-	"Communication/ComServer.h"
+	<Managers/Manager.h>
+	<Radio/RadioManager.h>
+	<Wiring/Wiring.h>
+	<Debug/DebugManager.h>
+	<Tools/StringTools.h>
+	<Communication/ComServer.h>
 
-1488313911 /home/pi/Projects/Alfred/Source/Radio/Radio.h
-	"Tools/Plot.h"
+1513196449 /home/pi/Projects/Alfred/Source/Radio/Radio.h
+	<Debug/Plot.h>
 
-1476899703 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
+1513197768 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
-1509023433 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
+1513196280 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
 	"Radio.h"
 	<sys/time.h>
 	<time.h>
 	<sstream>
 	<cmath>
 	<iostream>
-	"Wiring/Wiring.h"
-	"Managers/DebugManager.h"
-	"Managers/ObjectsManager.h"
-	"Managers/ConfigManager.h"
+	<Wiring/Wiring.h>
+	<Debug/DebugManager.h>
+	<Objects/ObjectsManager.h>
+	<Config/ConfigManager.h>
 
-1476899698 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
+1513197431 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
 	"Wiring.h"
-	"Managers/DebugManager.h"
+	<Debug/DebugManager.h>
 
 1476045503 source:/home/pi/Projects/Alfred/Source/Tools/StringTools.cpp
 	"StringTools.h"
@@ -41,33 +41,35 @@
 1476045750 /home/pi/Projects/Alfred/Source/Tools/StringTools.h
 	<iostream>
 
-1488313238 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
+1513198804 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
 	"Manager.h"
-	"Managers/ConfigManager.h"
-	"Managers/DebugManager.h"
-	"Managers/ObjectsManager.h"
+	<Config/ConfigManager.h>
+	<Debug/DebugManager.h>
+	<Objects/ObjectsManager.h>
+	<Radio/RadioManager.h>
 
-1488308666 /home/pi/Projects/Alfred/Source/Managers/Manager.h
+1513198714 /home/pi/Projects/Alfred/Source/Managers/Manager.h
+	<vector>
 
-1512779178 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
+1513186480 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
 	"DebugManager.h"
 	<iostream>
 	<cstdarg>
 	<fstream>
 	"Managers/ConfigManager.h"
 
-1512754295 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
+1513189384 /home/pi/Projects/Alfred/Source/Managers/DebugManager.h
 	"Managers/Manager.h"
 	<string>
 
-1476221614 source:/home/pi/Projects/Alfred/Source/Tools/Plot.cpp
+1513182980 source:/home/pi/Projects/Alfred/Source/Tools/Plot.cpp
 	"Plot.h"
 
 1476221644 /home/pi/Projects/Alfred/Source/Tools/Plot.h
 	<fstream>
 	<chrono>
 
-1476900025 source:/home/pi/Projects/Alfred/Source/Tools/Utils.cpp
+1513182929 source:/home/pi/Projects/Alfred/Source/Tools/Utils.cpp
 	"Utils.h"
 
 1476900016 /home/pi/Projects/Alfred/Source/Tools/Utils.h
@@ -88,7 +90,7 @@
 	<thrift/transport/TTransport.h>
 	<thrift/cxxfunctional.h>
 
-1477429059 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication_server.skeleton.cpp
+1488138435 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication_server.skeleton.cpp
 	"AlfredCommunication.h"
 	<thrift/protocol/TBinaryProtocol.h>
 	<thrift/server/TSimpleServer.h>
@@ -107,18 +109,18 @@
 	<ostream>
 	<thrift/TToString.h>
 
-1477863532 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
+1513198361 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
 	"./gen-cpp/AlfredCommunication.h"
 
-1488141201 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
+1513198361 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
 	"ComServer.h"
 	<thrift/protocol/TBinaryProtocol.h>
 	<thrift/server/TSimpleServer.h>
 	<thrift/transport/TServerSocket.h>
 	<thrift/transport/TBufferTransports.h>
 	<wiringPi.h>
-	"Radio/Radio.h"
-	"Managers/DebugManager.h"
+	<Radio/RadioManager.h>
+	<Debug/DebugManager.h>
 
 1488138435 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.h
 	<iosfwd>
@@ -140,16 +142,17 @@
 	<ostream>
 	<thrift/TToString.h>
 
-1488312989 source:/home/pi/Projects/Alfred/Source/Managers/ObjectsManager.cpp
+1513189171 source:/home/pi/Projects/Alfred/Source/Managers/ObjectsManager.cpp
 	"ObjectsManager.h"
 	"rapidjson/document.h"
 	"rapidjson/filereadstream.h"
 	"Managers/DebugManager.h"
 
-1488141284 /home/pi/Projects/Alfred/Source/Managers/ObjectsManager.h
-	"AlTypes.h"
+1513189630 /home/pi/Projects/Alfred/Source/Managers/ObjectsManager.h
+	<AlTypes.h>
 	<string>
 	<map>
+	<Managers/Manager.h>
 
 1488308663 /home/pi/Projects/Alfred/Source/AlTypes.h
 
@@ -260,13 +263,81 @@
 	"stream.h"
 	<cstdio>
 
-1488312523 source:/home/pi/Projects/Alfred/Source/Managers/ConfigManager.cpp
+1513189171 source:/home/pi/Projects/Alfred/Source/Managers/ConfigManager.cpp
 	"Managers/ConfigManager.h"
 	"rapidjson/document.h"
 	"rapidjson/filereadstream.h"
 	"Managers/DebugManager.h"
 
-1488309200 /home/pi/Projects/Alfred/Source/Managers/ConfigManager.h
+1513189393 /home/pi/Projects/Alfred/Source/Managers/ConfigManager.h
 	"Managers/Manager.h"
 	"AlTypes.h"
+
+1476221644 /home/pi/Projects/Alfred/Source/Debug/Plot.h
+	<fstream>
+	<chrono>
+
+1513198361 /home/pi/Projects/Alfred/Source/Debug/DebugManager.h
+	<Managers/Manager.h>
+	<string>
+
+1513197431 source:/home/pi/Projects/Alfred/Source/Config/ConfigManager.cpp
+	<Config/ConfigManager.h>
+	<rapidjson/document.h>
+	<rapidjson/filereadstream.h>
+	<Debug/DebugManager.h>
+
+1513198361 /home/pi/Projects/Alfred/Source/Config/ConfigManager.h
+	<Managers/Manager.h>
+	"AlTypes.h"
+
+1513197431 source:/home/pi/Projects/Alfred/Source/Debug/DebugManager.cpp
+	"DebugManager.h"
+	<iostream>
+	<cstdarg>
+	<fstream>
+	<Config/ConfigManager.h>
+
+1513182980 source:/home/pi/Projects/Alfred/Source/Debug/Plot.cpp
+	"Plot.h"
+
+1513189630 /home/pi/Projects/Alfred/Source/Objects/ObjectsManager.h
+	<AlTypes.h>
+	<string>
+	<map>
+	<Managers/Manager.h>
+
+1513197431 source:/home/pi/Projects/Alfred/Source/Objects/ObjectsManager.cpp
+	"ObjectsManager.h"
+	"rapidjson/document.h"
+	"rapidjson/filereadstream.h"
+	<Debug/DebugManager.h>
+
+1513202126 /home/pi/Projects/Alfred/Source/Radio/RadioManager.h
+	<Debug/Plot.h>
+	<Managers/Manager.h>
+
+1513202115 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
+	"RadioManager.h"
+	<sys/time.h>
+	<time.h>
+	<sstream>
+	<cmath>
+	<iostream>
+	<Wiring/Wiring.h>
+	<Debug/DebugManager.h>
+	<Objects/ObjectsManager.h>
+	<Config/ConfigManager.h>
+
+1513197719 source:/home/pi/Projects/Alfred/Source/Objects/Object.cpp
+
+1513197669 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
+
+1513197687 source:/home/pi/Projects/Alfred/Source/Requests/RequestManager.cpp
+
+1513197599 source:/home/pi/Projects/Alfred/Source/Tasks/Task.cpp
+
+1513197620 source:/home/pi/Projects/Alfred/Source/Tasks/TasksManager.cpp
+
+1513197569 source:/home/pi/Projects/Alfred/Source/UI/UIManager.cpp
 

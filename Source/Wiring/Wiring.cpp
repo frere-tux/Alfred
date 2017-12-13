@@ -1,18 +1,19 @@
 #include "Wiring.h"
 
-#include    "Managers/DebugManager.h"
+#include <Debug/DebugManager.h>
 
-using namespace Al;
+namespace Al
+{
 
 bool Wiring::init()
 {
     if(wiringPiSetup() == -1)
     {
-        Debug::getInstance().addLog(LogType_Error, "Librairie Wiring PI introuvable, veuillez lier cette librairie...");
+        g_DebugManager->addLog(LogType_Error, "Librairie Wiring PI introuvable, veuillez lier cette librairie...");
         return false;
     }
 
-    Debug::getInstance().addLog(LogType_Message,"WiringPI lib initialized");
+    g_DebugManager->addLog(LogType_Message,"WiringPI lib initialized");
     return true;
 }
 
@@ -29,4 +30,6 @@ int Wiring::readDigital(int _pin)
 void Wiring::writeDigital(int _pin, int _value)
 {
     digitalWrite(_pin, _value);
+}
+
 }

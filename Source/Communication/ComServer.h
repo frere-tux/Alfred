@@ -4,17 +4,17 @@ using namespace AlCom;
 
 namespace Al
 {
-    class Radio;
+    class RadioManager;
 
     class CommunicationHandler : virtual public AlfredCommunicationIf
     {
     public:
-        CommunicationHandler(Radio* _radio);
+        CommunicationHandler(RadioManager* _radio);
         void sendSimpleRequest(const SimpleRequest& request);
 
-        static int startCommunicationServer(Radio* _radio);
+        static int startCommunicationServer(RadioManager* _radio);
 
     private:
-        Radio* m_radio;
+        RadioManager* m_radio;
     };
 }

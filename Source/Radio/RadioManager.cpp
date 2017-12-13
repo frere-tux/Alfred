@@ -1,4 +1,4 @@
-#include "Radio.h"
+#include "RadioManager.h"
 
 #include <sys/time.h>
 #include <time.h>
@@ -6,10 +6,10 @@
 #include <cmath>
 #include <iostream>
 
-#include "Wiring/Wiring.h"
-#include "Managers/DebugManager.h"
-#include "Managers/ObjectsManager.h"
-#include "Managers/ConfigManager.h"
+#include <Wiring/Wiring.h>
+#include <Debug/DebugManager.h>
+#include <Objects/ObjectsManager.h>
+#include <Config/ConfigManager.h>
 
 #define PLOT_DATA false
 #define PLOT_DATA_ON_FAIL false
@@ -20,22 +20,23 @@
 #define SIGNAL_ZERO_TIME 400  //310 orinally, but tweaked
 #define SIGNAL_ONE_TIME 1225  //1340 orinally, but tweaked
 
-using namespace Al;
+namespace Al
+{
 
-Radio::Radio()
+RadioManager::RadioManager()
     : m_receptorPin(2)
     , m_transmitterPin(7)
 {
 
 }
 
-void Radio::Init()
+void RadioManager::Init()
 {
-    m_receptorPin = Config::getInstance().GetReceptorPin();
-    m_transmitterPin = Config::getInstance().GetEmitterPin();
+    m_receptorPin = g_ConfigManager->GetReceptorPin();
+    m_transmitterPin = g_ConfigManager->GetEmitterPin();
 }
 
-unsigned int Radio::getPulseIn(int _timeout /*=500000*/)
+unsigned int RadioManager::getPulseIn(int _timeout /*=500000*/)
 {
     struct timeval tn, t0, t1;
     long micros;
@@ -94,7 +95,7 @@ unsigned int Radio::getPulseIn(int _timeout /*=500000*/)
     return micros;
 }
 
-bool Radio::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArray& _validArray, const bool _wait, const bool _preparePlot /*= false*/, const int _timeOut /*= 500000*/)
+bool RadioManager::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArray& _validArray, const bool _wait, const bool _preparePlot /*= false*/, const int _timeOut /*= 500000*/)
 {
     unsigned long t = 0;
     unsigned long tCorrection = 0;
@@ -105,7 +106,7 @@ bool Radio::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArra
     }
 
     // Wait for latch 2
-    t = Radio::getPulseIn(_timeOut);
+    t = RadioManager::getPulseIn(_timeOut);
     while(t < 2000 || t > 3500)
     {
         if (!_wait)
@@ -113,7 +114,7 @@ bool Radio::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArra
             return false;
         }
 
-        t = Radio::getPulseIn(_timeOut);
+        t = RadioManager::getPulseIn(_timeOut - t);
     }
 
     if (_preparePlot)
@@ -123,7 +124,7 @@ bool Radio::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArra
 
     for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE*2 ; ++dataBits)
     {
-        t = Radio::getPulseIn(_timeOut) + tCorrection;
+        t = RadioManager::getPulseIn(_timeOut - t) + tCorrection;
 
         if (_preparePlot)
         {
@@ -180,7 +181,7 @@ bool Radio::tryGetMessage(RadioManchesterArray& _manchArray, RadioManchesterArra
     return true;
 }
 
-bool Radio::manchesterCheck(const RadioManchesterArray& _manchArray, const RadioManchesterArray& _validManchArray, RadioMessageArray& _msgArray, RadioMessageArray& _validMsgArray)
+bool RadioManager::manchesterCheck(const RadioManchesterArray& _manchArray, const RadioManchesterArray& _validManchArray, RadioMessageArray& _msgArray, RadioMessageArray& _validMsgArray)
 {
     bool returnValue = true;
 
@@ -229,12 +230,12 @@ bool Radio::manchesterCheck(const RadioManchesterArray& _manchArray, const Radio
     return returnValue;
 }
 
-void Radio::plotLastMessage()
+void RadioManager::plotLastMessage()
 {
     m_plot.plotLog();
 }
 
-void Radio::process()
+void RadioManager::Process(float _dt)
 {
     unsigned long sender = 0;
     bool group = false;
@@ -293,44 +294,44 @@ void Radio::process()
             struct timeval curTime;
             gettimeofday(&curTime, NULL);
 
-            Debug::getInstance().addLog(LogType_Message, "-------- %ds, %dus --------", curTime.tv_sec, curTime.tv_usec);
+            g_DebugManager->addLog(LogType_Message, "-------- %ds, %dus --------", curTime.tv_sec, curTime.tv_usec);
 
-            Debug::getInstance().addLog(LogType_Message, "sender: %d", sender);
+            g_DebugManager->addLog(LogType_Message, "sender: %d", sender);
 
             if(group)
             {
-                Debug::getInstance().addLog(LogType_Message, "group command");
+                g_DebugManager->addLog(LogType_Message, "group command");
             }
             else
             {
-                Debug::getInstance().addLog(LogType_Message, "no group");
+                g_DebugManager->addLog(LogType_Message, "no group");
             }
 
             if(on)
             {
-                Debug::getInstance().addLog(LogType_Message, "on");
+                g_DebugManager->addLog(LogType_Message, "on");
             }
             else
             {
-                Debug::getInstance().addLog(LogType_Message, "off");
+                g_DebugManager->addLog(LogType_Message, "off");
             }
 
-            Debug::getInstance().addLog(LogType_Message, "recipient: %d", recipient);
-            Debug::getInstance().addLog(LogType_Message, "------------------------------");
+            g_DebugManager->addLog(LogType_Message, "recipient: %d", recipient);
+            g_DebugManager->addLog(LogType_Message, "------------------------------");
             delay(1000);
         }
         else
         {
             if (PLOT_DATA && PLOT_DATA_ON_FAIL)
             {
-                Debug::getInstance().addLog(LogType_Warning, "No data...");
+                g_DebugManager->addLog(LogType_Warning, "No data...");
                 plotLastMessage();
             }
         }
     }
 }
 
-void Radio::sendBit(const bool _bit)
+void RadioManager::sendBit(const bool _bit)
 {
     if (_bit)
     {
@@ -350,7 +351,7 @@ void Radio::sendBit(const bool _bit)
     }
 }
 
-void Radio::sendPair(const bool _bit)
+void RadioManager::sendPair(const bool _bit)
 {
     if(_bit)
     {
@@ -366,13 +367,13 @@ void Radio::sendPair(const bool _bit)
     }
 }
 
-void Radio::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _roomId, const unsigned int _objectId)
+void RadioManager::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _roomId, const unsigned int _objectId)
 {
     if (_nbMsg != 0)
     {
-        if (const Object* object = ObjectsManager::getInstance().GetObject(_roomId, _objectId))
+        if (const Object* object = g_ObjectsManager->GetObject(_roomId, _objectId))
         {
-            Debug::getInstance().addLog(LogType_Message, "Transmitting signal: group(%s), roomId(%d), objectId(%d), state(%s)", _group?"true":"false", _roomId, _objectId, _intOn?"on":"off");
+            g_DebugManager->addLog(LogType_Message, "Transmitting signal: group(%s), roomId(%d), objectId(%d), state(%s)", _group?"true":"false", _roomId, _objectId, _intOn?"on":"off");
 
             transmit(_intOn, _group, object->m_groupId, object->m_elementId);
             for (unsigned int i = 1 ; i < _nbMsg ; ++i)
@@ -384,7 +385,7 @@ void Radio::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _g
     }
 }
 
-void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _groupId, const unsigned int _intId)
+void RadioManager::transmit(const bool _intOn, const bool _group, const unsigned int _groupId, const unsigned int _intId)
 {
 // Sequence de verrou anoncant le départ du signal au recepeteur
     Wiring::writeDigital(m_transmitterPin, HIGH);
@@ -429,4 +430,6 @@ void Radio::transmit(const bool _intOn, const bool _group, const unsigned int _g
     Wiring::writeDigital(m_transmitterPin, LOW);    // verrou 2 de 2675µs pour signaler la fermeture du signal
 
     //printf("\n");
+}
+
 }

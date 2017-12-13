@@ -3,9 +3,10 @@
 #include "rapidjson/document.h"
 #include "rapidjson/filereadstream.h"
 
-#include "Managers/DebugManager.h"
+#include <Debug/DebugManager.h>
 
-using namespace Al;
+namespace Al
+{
 
 void ObjectsManager::Init()
 {
@@ -23,7 +24,7 @@ void ObjectsManager::Init()
     const rapidjson::Value& rooms = document["rooms"];
     assert(rooms.IsArray());
 
-    Debug::getInstance().addLog(LogType_Message, "-------------------OBJECTS-------------------");
+    g_DebugManager->addLog(LogType_Message, "-------------------OBJECTS-------------------");
 
     for (rapidjson::Value::ConstValueIterator itrRooms = rooms.Begin(); itrRooms != rooms.End(); ++itrRooms)
     {
@@ -44,7 +45,7 @@ void ObjectsManager::Init()
 
         Room room(roomId.GetUint(), roomName.GetString(), roomGroupId.GetUint());
 
-        Debug::getInstance().addLog(LogType_Message, "%s (id: %u - groupId: %u)", room.m_name.c_str(), room.m_id, room.m_groupId);
+        g_DebugManager->addLog(LogType_Message, "%s (id: %u - groupId: %u)", room.m_name.c_str(), room.m_id, room.m_groupId);
 
         for (rapidjson::Value::ConstValueIterator itrObjects = roomObjects.Begin(); itrObjects != roomObjects.End(); ++itrObjects)
         {
@@ -60,7 +61,7 @@ void ObjectsManager::Init()
             const rapidjson::Value& objectElementId = objectValue["elementId"];
             assert(objectElementId.IsUint());
 
-            Debug::getInstance().addLog(LogType_Message, "    %s (id: %u, elementId: %u)", objectName.GetString(), objectId.GetUint(), objectElementId.GetUint());
+            g_DebugManager->addLog(LogType_Message, "    %s (id: %u, elementId: %u)", objectName.GetString(), objectId.GetUint(), objectElementId.GetUint());
 
             assert(room.m_objects.find(objectId.GetUint()) == room.m_objects.end());
 
@@ -71,10 +72,10 @@ void ObjectsManager::Init()
 
         m_rooms[room.m_id] = room;
 
-        Debug::getInstance().addLog(LogType_Message, "               ---------------");
+        g_DebugManager->addLog(LogType_Message, "               ---------------");
     }
 
-    Debug::getInstance().addLog(LogType_Message, "---------------------------------------------");
+    g_DebugManager->addLog(LogType_Message, "---------------------------------------------");
 }
 
 const Object* ObjectsManager::GetObject(const u32 _roomId, u32 _objectId)
@@ -90,4 +91,6 @@ const Object* ObjectsManager::GetObject(const u32 _roomId, u32 _objectId)
     }
 
     return nullptr;
+}
+
 }

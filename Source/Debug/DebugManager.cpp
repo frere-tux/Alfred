@@ -4,13 +4,14 @@
 #include <cstdarg>
 #include <fstream>
 
-#include "Managers/ConfigManager.h"
+#include <Config/ConfigManager.h>
 
 #define LOG_TO_FILE 0
 
-using namespace Al;
+namespace Al
+{
 
-Debug::Debug()
+DebugManager::DebugManager()
     : m_active(true)
     , m_displayMessages(true)
     , m_displayWarnings(true)
@@ -19,12 +20,12 @@ Debug::Debug()
 {
 }
 
-void Debug::Init()
+void DebugManager::Init()
 {
-    m_active = Config::getInstance().GetEnableDebug();
+    m_active = g_ConfigManager->GetEnableDebug();
 }
 
-void Debug::addLog(const LogType _type, const std::string& _message) const
+void DebugManager::addLog(const LogType _type, const std::string& _message) const
 {
     if ( ( (_type == LogType_Message && m_displayMessages)
        || (_type == LogType_Warning && m_displayWarnings)
@@ -44,7 +45,7 @@ void Debug::addLog(const LogType _type, const std::string& _message) const
     }
 }
 
-void Debug::addLog(LogType _type, const char* _format, ...) const
+void DebugManager::addLog(LogType _type, const char* _format, ...) const
 {
     if (!_format)
     {
@@ -64,3 +65,4 @@ void Debug::addLog(LogType _type, const char* _format, ...) const
     addLog(_type, std::string(tempBuffer));
 }
 
+}

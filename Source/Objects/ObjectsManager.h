@@ -1,8 +1,10 @@
 #pragma once
 
-#include "AlTypes.h"
+#include <AlTypes.h>
 #include <string>
 #include <map>
+
+#include <Managers/Manager.h>
 
 namespace Al
 {
@@ -43,24 +45,13 @@ namespace Al
         std::map<u32, Object> m_objects;
     };
 
-    class ObjectsManager
+    class ObjectsManager : public Manager
     {
-    private:
-        ObjectsManager() {}
-
     public:
-        static ObjectsManager& getInstance()
-        {
-            static ObjectsManager instance;
-            return instance;
-        }
-
+        ObjectsManager() {}
         ~ObjectsManager() {}
 
-        ObjectsManager(const ObjectsManager&) = delete;
-        void operator=(const ObjectsManager&) = delete;
-
-        void Init();
+        virtual void Init()  override;
 
         const Object* GetObject(const u32 _roomId, u32 _objectId);
 

@@ -7,8 +7,8 @@
 
 #include <wiringPi.h>
 
-#include "Radio/Radio.h"
-#include "Managers/DebugManager.h"
+#include <Radio/RadioManager.h>
+#include <Debug/DebugManager.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
@@ -17,10 +17,11 @@ using namespace ::apache::thrift::server;
 
 using boost::shared_ptr;
 using namespace AlCom;
-using namespace Al;
 
+namespace Al
+{
 
-CommunicationHandler::CommunicationHandler(Radio* _radio)
+CommunicationHandler::CommunicationHandler(RadioManager* _radio)
     : m_radio(_radio)
 {
     std::cout << "Communication server online" << std::endl;
@@ -30,13 +31,13 @@ void CommunicationHandler::sendSimpleRequest(const SimpleRequest& request)
 {
     if (m_radio)
     {
-        Debug::getInstance().addLog(LogType_Message, "Simple request received: group(%s), roomId(%d), objectId(%d), state(%s)", request.group?"true":"false", request.groupID, request.elementID, request.state?"on":"off");
+        g_DebugManager->addLog(LogType_Message, "Simple request received: group(%s), roomId(%d), objectId(%d), state(%s)", request.group?"true":"false", request.groupID, request.elementID, request.state?"on":"off");
 
         m_radio->transmit(3, request.state, request.group, request.groupID, request.elementID);
     }
 }
 
-int CommunicationHandler::startCommunicationServer(Radio* _radio)
+int CommunicationHandler::startCommunicationServer(RadioManager* _radio)
 {
     int port = 9090;
     shared_ptr<CommunicationHandler> handler(new CommunicationHandler(_radio));
@@ -48,5 +49,7 @@ int CommunicationHandler::startCommunicationServer(Radio* _radio)
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
     server.serve();
     return 0;
+}
+
 }
 

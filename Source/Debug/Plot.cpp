@@ -1,6 +1,7 @@
 #include "Plot.h"
 
-using namespace Al;
+namespace Al
+{
 
 Plot::Plot()
     : m_firstLine(false)
@@ -65,4 +66,4 @@ void Plot::plotLog()
     system("gnuplot -persistent ./plot.txt");
 }
 
-
+}

@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-#include "Managers/Manager.h"
+#include <Managers/Manager.h>
 
 #include <string>
 
@@ -15,24 +15,13 @@ namespace Al
         LogType_Important
     };
 
-    class Debug
+    class DebugManager : public Manager
     {
-    private:
-        Debug();
-
     public:
-        static Debug& getInstance()
-        {
-            static Debug instance;
-            return instance;
-        }
+        DebugManager();
+        virtual ~DebugManager() {}
 
-        virtual ~Debug() {}
-
-        Debug(const Debug&) = delete;
-        void operator=(const Debug&) = delete;
-
-        void Init();
+        virtual void Init() override;
 
         void activate(const bool _active) { m_active = _active; };
         void addLog(const LogType _type, const std::string& _message) const;

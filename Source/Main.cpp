@@ -4,12 +4,12 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "Managers/Manager.h"
-#include "Radio/Radio.h"
-#include "Wiring/Wiring.h"
-#include "Managers/DebugManager.h"
-#include "Tools/StringTools.h"
-#include "Communication/ComServer.h"
+#include <Managers/Manager.h>
+#include <Radio/RadioManager.h>
+#include <Wiring/Wiring.h>
+#include <Debug/DebugManager.h>
+#include <Tools/StringTools.h>
+#include <Communication/ComServer.h>
 
 #define LOG_FREQUENCY 60 * 60
 
@@ -39,20 +39,18 @@ void scheduler_standard()
 
 int main (int argc, char** argv)
 {
-    // Managers initialization
-    Manager::InitManagers();
+    /// Managers initialization
+    Managers managers;
+    managers.CreateManagers();
+    managers.InitManagers();
 
-    // WiringPi initialization
+    /// WiringPi initialization
     if (!Wiring::init())
 	{
         return -1;
 	}
 
-    // Radio service initialization
-	Radio radio;
-	radio.Init();
-
-    // Log session start
+    /// Log session start
     time_t startTime;
 
     struct tm * timeinfo;
@@ -64,51 +62,42 @@ int main (int argc, char** argv)
 
     strftime(dateBuffer,sizeof(dateBuffer),"%d-%m-%Y %I:%M:%S",timeinfo);
 
-	Debug::getInstance().addLog(LogType_Important, "\n\n      ===== New Session (%s) =====\n", dateBuffer);
+	g_DebugManager->addLog(LogType_Important, "\n\n      ===== New Session (%s) =====\n", dateBuffer);
 
-    // Start main loop
-    time_t currentTime;
-    currentTime = startTime;
-
-    time_t nextLogTime = currentTime + LOG_FREQUENCY;
+    /// Start main loop
+    //time_t currentTime;
+    //currentTime = startTime;
+    //time_t nextLogTime = currentTime + LOG_FREQUENCY;
 
 	pid_t pid = fork();
 
     if (pid == 0)
     {
         scheduler_realtime();
-    }
-	else if (pid > 0)
-    {
-        CommunicationHandler::startCommunicationServer(&radio);
-    }
 
-    bool endLoop = false;
-    while (!endLoop)
-    {
-        if (pid == 0)
+        bool endLoop = false;
+        while (!endLoop)
         {
-            time(&currentTime);
+            /*time(&currentTime);
             if (currentTime >= nextLogTime)
             {
                 long int duration = currentTime - startTime;
-                Debug::getInstance().addLog(LogType_Important, "-- online for %ld minutes\n", duration/60);
+                g_DebugManager->addLog(LogType_Important, "-- online for %ld minutes\n", duration/60);
 
                 nextLogTime += LOG_FREQUENCY;
-            }
+            }*/
 
-            radio.process();
+            managers.ProcessManagers();
         }
-        else if (pid > 0)
-        {
 
-        }
-    }
-
-    if (pid == 0)
-    {
         scheduler_standard();
     }
+	else if (pid > 0)
+    {
+        CommunicationHandler::startCommunicationServer(g_RadioManager);
+    }
 
-    Debug::getInstance().addLog(LogType_Important, "\n      ===== End of session =====\n\n");
+    g_DebugManager->addLog(LogType_Important, "\n      ===== End of session =====\n\n");
+
+    return 0;
 }
