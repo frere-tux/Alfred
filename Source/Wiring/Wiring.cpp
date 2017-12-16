@@ -5,6 +5,8 @@
 namespace Al
 {
 
+//std::mutex Wiring::s_wiringMutex;
+
 bool Wiring::init()
 {
     if(wiringPiSetup() == -1)
@@ -19,16 +21,22 @@ bool Wiring::init()
 
 void Wiring::setPinMode(int _pin, int _mode)
 {
+    //std::lock_guard<std::mutex> guard(Wiring::s_wiringMutex);
+
     pinMode(_pin, _mode);
 }
 
 int Wiring::readDigital(int _pin)
 {
+    //std::lock_guard<std::mutex> guard(Wiring::s_wiringMutex);
+
     return digitalRead(_pin);
 }
 
 void Wiring::writeDigital(int _pin, int _value)
 {
+    //std::lock_guard<std::mutex> guard(Wiring::s_wiringMutex);
+
     digitalWrite(_pin, _value);
 }
 

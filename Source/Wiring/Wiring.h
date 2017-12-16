@@ -1,5 +1,7 @@
 #pragma once
 
+//#include <mutex>
+
 #include <wiringPi.h>
 
 namespace Al
@@ -25,5 +27,8 @@ namespace Al
         static void setPinMode(int _pin, int _mode);
         static int readDigital(int _pin);
         static void writeDigital(int _pin, int _value);
+
+    //private:
+    //   static std::mutex s_wiringMutex;
     };
 }

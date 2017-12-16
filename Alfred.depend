@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1513201388 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1513371434 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -15,7 +15,7 @@
 1513196449 /home/pi/Projects/Alfred/Source/Radio/Radio.h
 	<Debug/Plot.h>
 
-1513197768 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
+1513377500 /home/pi/Projects/Alfred/Source/Wiring/Wiring.h
 	<wiringPi.h>
 
 1513196280 source:/home/pi/Projects/Alfred/Source/Radio/Radio.cpp
@@ -30,7 +30,7 @@
 	<Objects/ObjectsManager.h>
 	<Config/ConfigManager.h>
 
-1513197431 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
+1513385781 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
 	"Wiring.h"
 	<Debug/DebugManager.h>
 
@@ -41,14 +41,15 @@
 1476045750 /home/pi/Projects/Alfred/Source/Tools/StringTools.h
 	<iostream>
 
-1513198804 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
+1513373670 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
 	"Manager.h"
 	<Config/ConfigManager.h>
 	<Debug/DebugManager.h>
 	<Objects/ObjectsManager.h>
 	<Radio/RadioManager.h>
+	<Requests/RequestsManager.h>
 
-1513198714 /home/pi/Projects/Alfred/Source/Managers/Manager.h
+1513264419 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 	<vector>
 
 1513186480 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
@@ -154,7 +155,8 @@
 	<map>
 	<Managers/Manager.h>
 
-1488308663 /home/pi/Projects/Alfred/Source/AlTypes.h
+1513264966 /home/pi/Projects/Alfred/Source/AlTypes.h
+	<climits>
 
 1487982349 /home/pi/Projects/External/rapidjson/include/rapidjson/document.h
 	"reader.h"
@@ -301,7 +303,7 @@
 1513182980 source:/home/pi/Projects/Alfred/Source/Debug/Plot.cpp
 	"Plot.h"
 
-1513189630 /home/pi/Projects/Alfred/Source/Objects/ObjectsManager.h
+1513361947 /home/pi/Projects/Alfred/Source/Objects/ObjectsManager.h
 	<AlTypes.h>
 	<string>
 	<map>
@@ -313,11 +315,14 @@
 	"rapidjson/filereadstream.h"
 	<Debug/DebugManager.h>
 
-1513202126 /home/pi/Projects/Alfred/Source/Radio/RadioManager.h
+1513373819 /home/pi/Projects/Alfred/Source/Radio/RadioManager.h
+	<thread>
+	<vector>
+	<mutex>
 	<Debug/Plot.h>
 	<Managers/Manager.h>
 
-1513202115 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
+1513386153 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
 	"RadioManager.h"
 	<sys/time.h>
 	<time.h>
@@ -331,13 +336,28 @@
 
 1513197719 source:/home/pi/Projects/Alfred/Source/Objects/Object.cpp
 
-1513197669 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
+1513265258 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
+	"Request.h"
 
-1513197687 source:/home/pi/Projects/Alfred/Source/Requests/RequestManager.cpp
+1513371209 source:/home/pi/Projects/Alfred/Source/Requests/RequestManager.cpp
+	"RequestsManager.h"
+	<cassert>
 
 1513197599 source:/home/pi/Projects/Alfred/Source/Tasks/Task.cpp
 
 1513197620 source:/home/pi/Projects/Alfred/Source/Tasks/TasksManager.cpp
 
 1513197569 source:/home/pi/Projects/Alfred/Source/UI/UIManager.cpp
+
+1513265307 /home/pi/Projects/Alfred/Source/Requests/RequestsManager.h
+	<map>
+	<Managers/Manager.h>
+	"Request.h"
+	"RequestsTypes.h"
+
+1513265225 /home/pi/Projects/Alfred/Source/Requests/Request.h
+	"RequestsTypes.h"
+
+1513264802 /home/pi/Projects/Alfred/Source/Requests/RequestsTypes.h
+	"AlTypes.h"
 

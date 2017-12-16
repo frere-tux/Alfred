@@ -38,6 +38,7 @@
 			<Add directory="../External/rapidjson/include" />
 		</Compiler>
 		<Linker>
+			<Add option="-lpthread" />
 			<Add library="/usr/lib/libwiringPi.so" />
 			<Add library="/usr/local/lib/libthrift.so" />
 		</Linker>
@@ -72,6 +73,7 @@
 		<Unit filename="Source/Requests/Request.h" />
 		<Unit filename="Source/Requests/RequestManager.cpp" />
 		<Unit filename="Source/Requests/RequestsManager.h" />
+		<Unit filename="Source/Requests/RequestsTypes.h" />
 		<Unit filename="Source/Tasks/Task.cpp" />
 		<Unit filename="Source/Tasks/Task.h" />
 		<Unit filename="Source/Tasks/TaskTypes.h" />

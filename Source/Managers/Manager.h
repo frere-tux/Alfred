@@ -36,5 +36,6 @@ namespace Al
     DECLARE_MANAGER(DebugManager)
     DECLARE_MANAGER(ObjectsManager)
     DECLARE_MANAGER(RadioManager)
+    DECLARE_MANAGER(RequestsManager)
 }
 
