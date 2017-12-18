@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1513371434 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1513615697 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -30,7 +30,7 @@
 	<Objects/ObjectsManager.h>
 	<Config/ConfigManager.h>
 
-1513385781 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
+1513441082 source:/home/pi/Projects/Alfred/Source/Wiring/Wiring.cpp
 	"Wiring.h"
 	<Debug/DebugManager.h>
 
@@ -49,7 +49,7 @@
 	<Radio/RadioManager.h>
 	<Requests/RequestsManager.h>
 
-1513264419 /home/pi/Projects/Alfred/Source/Managers/Manager.h
+1513617034 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 	<vector>
 
 1513186480 source:/home/pi/Projects/Alfred/Source/Managers/DebugManager.cpp
@@ -315,20 +315,21 @@
 	"rapidjson/filereadstream.h"
 	<Debug/DebugManager.h>
 
-1513373819 /home/pi/Projects/Alfred/Source/Radio/RadioManager.h
+1513531629 /home/pi/Projects/Alfred/Source/Radio/RadioManager.h
 	<thread>
 	<vector>
 	<mutex>
 	<Debug/Plot.h>
 	<Managers/Manager.h>
 
-1513386153 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
+1513616075 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
 	"RadioManager.h"
 	<sys/time.h>
 	<time.h>
 	<sstream>
 	<cmath>
 	<iostream>
+	<cstring>
 	<Wiring/Wiring.h>
 	<Debug/DebugManager.h>
 	<Objects/ObjectsManager.h>

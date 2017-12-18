@@ -12,7 +12,7 @@
 namespace Al
 {
     typedef struct RadioManchesterArray {bool data[RADIO_MESSAGE_SIZE*2];} RadioManchesterArray;
-    typedef struct RadioMessageArray {bool data[RADIO_MESSAGE_SIZE];} RadioMessageArray;
+    typedef struct RadioMessageArray {bool valid = true; bool data[RADIO_MESSAGE_SIZE];} RadioMessageArray;
 
     class RadioManager : public Manager
     {
@@ -36,8 +36,6 @@ namespace Al
         void            sendPair(const bool _bit);
         void            transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _roomId, const unsigned int _objectId);
         void            transmit(const bool _intOn, const bool _group, const unsigned int _groupId, const unsigned int _intId);
-
-        void    TestThread();
 
     private:
         // Get input pulse in microseconds

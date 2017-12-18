@@ -5,6 +5,7 @@
 #include <sstream>
 #include <cmath>
 #include <iostream>
+#include <cstring>
 
 #include <Wiring/Wiring.h>
 #include <Debug/DebugManager.h>
@@ -40,13 +41,11 @@ void RadioManager::End()
     }
 }
 
-void RadioManager::TestThread()
+void RadioManager::AsyncProcessReception()
 {
-    int i = 0;
-    while (++i < 25)
+    bool endLoop = false;
+    while (!endLoop)
     {
-        std::cout << "Pouet " << i << std::endl;
-
         RadioManchesterArray manchArray, validManchArray;
         for (unsigned int i = 0 ; i < RADIO_MESSAGE_SIZE*2 ; ++i)
         {
@@ -63,23 +62,15 @@ void RadioManager::TestThread()
 
         if (tryGetMessage(manchArray, validManchArray, true, PLOT_DATA))
         {
-            if(manchesterCheck(manchArray, validManchArray, msgArray, validMsgArray))
+            msgArray.valid = manchesterCheck(manchArray, validManchArray, msgArray, validMsgArray);
+
+            if (msgArray.valid || PLOT_DATA_ON_FAIL)
             {
                 std::lock_guard<std::mutex> guard(m_receptionMutex);
-
                 m_messagesReceived.push_back(msgArray);
             }
-            else
-            {
-                if (PLOT_DATA && PLOT_DATA_ON_FAIL)
-                {
-                    //g_DebugManager->addLog(LogType_Warning, "No data...");
-                    plotLastMessage();
-                }
-            }
         }
-
-        delay(100);
+        delay(1);
     }
 }
 
@@ -87,11 +78,6 @@ void RadioManager::Init()
 {
     m_receptorPin = g_ConfigManager->GetReceptorPin();
     m_transmitterPin = g_ConfigManager->GetEmitterPin();
-
-
-    //m_receptionThread = std::thread([this](){ this->AsyncProcessReception(); } );
-    //m_receptionThread = new std::thread(&RadioManager::TestThread, this);
-
 }
 
 unsigned int RadioManager::getPulseIn(int _timeout /*=500000*/)
@@ -157,7 +143,7 @@ bool RadioManager::tryGetMessage(RadioManchesterArray& _manchArray, RadioManches
 
     if (_preparePlot)
     {
-        m_plot.init();
+        //m_plot.init();
     }
 
     // Wait for latch 2
@@ -174,7 +160,7 @@ bool RadioManager::tryGetMessage(RadioManchesterArray& _manchArray, RadioManches
 
     if (_preparePlot)
     {
-        m_plot.logPulse(t);
+        //m_plot.logPulse(t);
     }
 
     for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE*2 ; ++dataBits)
@@ -183,7 +169,7 @@ bool RadioManager::tryGetMessage(RadioManchesterArray& _manchArray, RadioManches
 
         if (_preparePlot)
         {
-            m_plot.logPulse(t);
+            //m_plot.logPulse(t);
         }
 
         if(t > SIGNAL_ZERO_TIME-SIGNAL_ERROR_EPSILON && t < SIGNAL_ZERO_TIME+SIGNAL_ERROR_EPSILON*2)
@@ -230,7 +216,7 @@ bool RadioManager::tryGetMessage(RadioManchesterArray& _manchArray, RadioManches
 
     if (_preparePlot)
     {
-        m_plot.stopLog();
+        //m_plot.stopLog();
     }
 
     return true;
@@ -287,22 +273,30 @@ bool RadioManager::manchesterCheck(const RadioManchesterArray& _manchArray, cons
 
 void RadioManager::plotLastMessage()
 {
-    m_plot.plotLog();
+    //m_plot.plotLog();
 }
 
 void RadioManager::Process(float _dt)
 {
     if (!m_receptionThread)
     {
-        m_receptionThread = new std::thread(&RadioManager::TestThread, this);
-    }
+        m_receptionThread = new std::thread(&RadioManager::AsyncProcessReception, this);
 
+        sched_param sch;
+        int policy;
+        pthread_getschedparam(m_receptionThread->native_handle(), &policy, &sch);
+        sch.sched_priority = sched_get_priority_max(SCHED_RR);
+        if (pthread_setschedparam(m_receptionThread->native_handle(), SCHED_RR, &sch))
+        {
+            std::cout << "Failed to setschedparam: " << std::strerror(errno) << '\n';
+        }
+    }
 
     std::vector<RadioMessageArray>  messagesReceivedCopy;
     {
         std::lock_guard<std::mutex> guard(m_receptionMutex);
-
         messagesReceivedCopy = m_messagesReceived;
+        m_messagesReceived.clear();
     }
 
     for (auto& msgArray : messagesReceivedCopy)
@@ -312,111 +306,78 @@ void RadioManager::Process(float _dt)
         bool on = false;
         unsigned int recipient = 0;
 
-        if (PLOT_DATA && !PLOT_DATA_ON_FAIL)
+        if (msgArray.valid)
         {
-            plotLastMessage();
-        }
+            if (PLOT_DATA && !PLOT_DATA_ON_FAIL)
+            {
+                plotLastMessage();
+            }
 
-        for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE ; ++dataBits)
-        {
-            if(dataBits <= 25)
+            for (unsigned int dataBits = 0 ; dataBits < RADIO_MESSAGE_SIZE ; ++dataBits)
             {
-                // first 26 data bits
-                sender <<= 1;
-                sender |= msgArray.data[dataBits];
+                if(dataBits <= 25)
+                {
+                    // first 26 data bits
+                    sender <<= 1;
+                    sender |= msgArray.data[dataBits];
+                }
+                else if(dataBits == 26)
+                {
+                    // 27th data bit
+                    group = msgArray.data[dataBits];
+                }
+                else if(dataBits == 27)
+                {
+                    // 28th data bit
+                    on = msgArray.data[dataBits];
+                }
+                else
+                {
+                    // last 4 data bits
+                    recipient <<= 1;
+                    recipient |= msgArray.data[dataBits];
+                }
             }
-            else if(dataBits == 26)
+
+            struct timeval curTime;
+            gettimeofday(&curTime, nullptr);
+
+            g_DebugManager->addLog(LogType_Message, "-------- %ds, %dus --------", curTime.tv_sec, curTime.tv_usec);
+
+            g_DebugManager->addLog(LogType_Message, "sender: %d", sender);
+
+            if(group)
             {
-                // 27th data bit
-                group = msgArray.data[dataBits];
-            }
-            else if(dataBits == 27)
-            {
-                // 28th data bit
-                on = msgArray.data[dataBits];
+                g_DebugManager->addLog(LogType_Message, "group command");
             }
             else
             {
-                // last 4 data bits
-                recipient <<= 1;
-                recipient |= msgArray.data[dataBits];
+                g_DebugManager->addLog(LogType_Message, "no group");
             }
+
+            if(on)
+            {
+                g_DebugManager->addLog(LogType_Message, "on");
+            }
+            else
+            {
+                g_DebugManager->addLog(LogType_Message, "off");
+            }
+
+            g_DebugManager->addLog(LogType_Message, "recipient: %d", recipient);
+            g_DebugManager->addLog(LogType_Message, "------------------------------");
         }
-
-        struct timeval curTime;
-        gettimeofday(&curTime, nullptr);
-
-        g_DebugManager->addLog(LogType_Message, "-------- %ds, %dus --------", curTime.tv_sec, curTime.tv_usec);
-
-        g_DebugManager->addLog(LogType_Message, "sender: %d", sender);
-
-        if(group)
+        else if (PLOT_DATA && PLOT_DATA_ON_FAIL)
         {
-            g_DebugManager->addLog(LogType_Message, "group command");
+            g_DebugManager->addLog(LogType_Warning, "Radio reception: Message with invalid data!");
+            plotLastMessage();
         }
-        else
-        {
-            g_DebugManager->addLog(LogType_Message, "no group");
-        }
-
-        if(on)
-        {
-            g_DebugManager->addLog(LogType_Message, "on");
-        }
-        else
-        {
-            g_DebugManager->addLog(LogType_Message, "off");
-        }
-
-        g_DebugManager->addLog(LogType_Message, "recipient: %d", recipient);
-        g_DebugManager->addLog(LogType_Message, "------------------------------");
     }
 }
 
 void RadioManager::AsyncProcessTransmission()
 {
 
-}
-
-void RadioManager::AsyncProcessReception()
-{
-    bool endReception = false;
-    int i = 0;
-    while (!endReception || ++i < 11)
-    {
-       /*  RadioManchesterArray manchArray, validManchArray;
-        for (unsigned int i = 0 ; i < RADIO_MESSAGE_SIZE*2 ; ++i)
-        {
-            manchArray.data[i] = 0;
-            validManchArray.data[i] = 0;
-        }
-
-        RadioMessageArray msgArray, validMsgArray;
-        for (unsigned int i = 0 ; i < RADIO_MESSAGE_SIZE ; ++i)
-        {
-            msgArray.data[i] = 0;
-            validMsgArray.data[i] = 0;
-        }
-
-        if (tryGetMessage(manchArray, validManchArray, true, PLOT_DATA))
-        {
-            if(manchesterCheck(manchArray, validManchArray, msgArray, validMsgArray))
-            {
-                std::lock_guard<std::mutex> guard(m_receptionMutex);
-
-                m_messagesReceived.push_back(msgArray);
-            }
-            else
-            {
-                if (PLOT_DATA && PLOT_DATA_ON_FAIL)
-                {
-                    g_DebugManager->addLog(LogType_Warning, "No data...");
-                    plotLastMessage();
-                }
-            }
-        }  */
-        delay(100);
-    }
 }
 
 void RadioManager::sendBit(const bool _bit)
