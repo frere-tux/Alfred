@@ -43,6 +43,8 @@
 			<Add library="/usr/local/lib/libthrift.so" />
 		</Linker>
 		<Unit filename="Source/AlTypes.h" />
+		<Unit filename="Source/Communication/ComManager.cpp" />
+		<Unit filename="Source/Communication/ComManager.h" />
 		<Unit filename="Source/Communication/ComServer.cpp" />
 		<Unit filename="Source/Communication/ComServer.h" />
 		<Unit filename="Source/Communication/gen-cpp/AlCom_constants.cpp" />
@@ -51,8 +53,6 @@
 		<Unit filename="Source/Communication/gen-cpp/AlCom_types.h" />
 		<Unit filename="Source/Communication/gen-cpp/AlfredCommunication.cpp" />
 		<Unit filename="Source/Communication/gen-cpp/AlfredCommunication.h" />
-		<Unit filename="Source/Communication/gen-cpp/test_constants.h" />
-		<Unit filename="Source/Communication/gen-cpp/test_types.h" />
 		<Unit filename="Source/Config/ConfigManager.cpp" />
 		<Unit filename="Source/Config/ConfigManager.h" />
 		<Unit filename="Source/Debug/DebugManager.cpp" />
@@ -71,7 +71,7 @@
 		<Unit filename="Source/Radio/RadioManager.h" />
 		<Unit filename="Source/Requests/Request.cpp" />
 		<Unit filename="Source/Requests/Request.h" />
-		<Unit filename="Source/Requests/RequestManager.cpp" />
+		<Unit filename="Source/Requests/RequestsManager.cpp" />
 		<Unit filename="Source/Requests/RequestsManager.h" />
 		<Unit filename="Source/Requests/RequestsTypes.h" />
 		<Unit filename="Source/Tasks/Task.cpp" />

@@ -11,6 +11,7 @@ namespace Al
     enum RequestType
     {
         RequestType_Device,
+        RequestType_DeviceGroup,
         RequestType_Script,
         RequestType_Task
     };

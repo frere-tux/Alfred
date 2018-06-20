@@ -8,7 +8,8 @@ namespace Al
     {
         RequestType     m_type;
         RequestAction   m_action;
-        u16             m_objectId;
+        u8              m_roomId;
+        u8              m_objectId;
     };
 
     class Request

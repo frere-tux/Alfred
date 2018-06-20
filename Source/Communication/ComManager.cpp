@@ -24,7 +24,7 @@ void ComManager::Process(float _dt)
 {
     if (!m_comServerThread)
     {
-        m_comServerThread = new std::thread(CommunicationHandler::startCommunicationServer, g_RadioManager);
+        m_comServerThread = new std::thread(CommunicationHandler::startCommunicationServer);
     }
 }
 

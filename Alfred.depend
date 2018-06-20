@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1513615697 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1513616974 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -41,13 +41,14 @@
 1476045750 /home/pi/Projects/Alfred/Source/Tools/StringTools.h
 	<iostream>
 
-1513373670 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
+1513617168 source:/home/pi/Projects/Alfred/Source/Managers/Manager.cpp
 	"Manager.h"
 	<Config/ConfigManager.h>
 	<Debug/DebugManager.h>
 	<Objects/ObjectsManager.h>
 	<Radio/RadioManager.h>
 	<Requests/RequestsManager.h>
+	<Communication/ComManager.h>
 
 1513617034 /home/pi/Projects/Alfred/Source/Managers/Manager.h
 	<vector>
@@ -110,17 +111,18 @@
 	<ostream>
 	<thrift/TToString.h>
 
-1513198361 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
+1529419215 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
 	"./gen-cpp/AlfredCommunication.h"
 
-1513198361 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
+1529422911 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
 	"ComServer.h"
 	<thrift/protocol/TBinaryProtocol.h>
 	<thrift/server/TSimpleServer.h>
 	<thrift/transport/TServerSocket.h>
 	<thrift/transport/TBufferTransports.h>
 	<wiringPi.h>
-	<Radio/RadioManager.h>
+	<Requests/RequestsManager.h>
+	<Objects/ObjectsManager.h>
 	<Debug/DebugManager.h>
 
 1488138435 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.h
@@ -303,11 +305,12 @@
 1513182980 source:/home/pi/Projects/Alfred/Source/Debug/Plot.cpp
 	"Plot.h"
 
-1513361947 /home/pi/Projects/Alfred/Source/Objects/ObjectsManager.h
+1529333213 /home/pi/Projects/Alfred/Source/Objects/ObjectsManager.h
 	<AlTypes.h>
 	<string>
 	<map>
 	<Managers/Manager.h>
+	"Object.h"
 
 1513197431 source:/home/pi/Projects/Alfred/Source/Objects/ObjectsManager.cpp
 	"ObjectsManager.h"
@@ -322,7 +325,7 @@
 	<Debug/Plot.h>
 	<Managers/Manager.h>
 
-1513616075 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
+1529425277 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
 	"RadioManager.h"
 	<sys/time.h>
 	<time.h>
@@ -335,10 +338,14 @@
 	<Objects/ObjectsManager.h>
 	<Config/ConfigManager.h>
 
-1513197719 source:/home/pi/Projects/Alfred/Source/Objects/Object.cpp
+1529334210 source:/home/pi/Projects/Alfred/Source/Objects/Object.cpp
+	"Object.h"
 
-1513265258 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
+1529496749 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
 	"Request.h"
+	<Objects/ObjectsManager.h>
+	<Radio/RadioManager.h>
+	<Debug/DebugManager.h>
 
 1513371209 source:/home/pi/Projects/Alfred/Source/Requests/RequestManager.cpp
 	"RequestsManager.h"
@@ -350,15 +357,34 @@
 
 1513197569 source:/home/pi/Projects/Alfred/Source/UI/UIManager.cpp
 
-1513265307 /home/pi/Projects/Alfred/Source/Requests/RequestsManager.h
+1529501097 /home/pi/Projects/Alfred/Source/Requests/RequestsManager.h
 	<map>
+	<mutex>
 	<Managers/Manager.h>
 	"Request.h"
 	"RequestsTypes.h"
 
-1513265225 /home/pi/Projects/Alfred/Source/Requests/Request.h
+1529422643 /home/pi/Projects/Alfred/Source/Requests/Request.h
 	"RequestsTypes.h"
 
-1513264802 /home/pi/Projects/Alfred/Source/Requests/RequestsTypes.h
+1529421440 /home/pi/Projects/Alfred/Source/Requests/RequestsTypes.h
 	"AlTypes.h"
+
+1529419155 source:/home/pi/Projects/Alfred/Source/Communication/ComManager.cpp
+	"ComManager.h"
+	<thread>
+	"ComServer.h"
+
+1513617213 /home/pi/Projects/Alfred/Source/Communication/ComManager.h
+	<Managers/Manager.h>
+
+1529335282 /home/pi/Projects/Alfred/Source/Objects/Object.h
+	<string>
+	<AlTypes.h>
+	<map>
+
+1529496848 source:/home/pi/Projects/Alfred/Source/Requests/RequestsManager.cpp
+	"RequestsManager.h"
+	<cassert>
+	<Debug/DebugManager.h>
 

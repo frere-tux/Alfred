@@ -420,16 +420,13 @@ void RadioManager::transmit(const unsigned int _nbMsg, const bool _intOn, const 
 {
     if (_nbMsg != 0)
     {
-        if (const Object* object = g_ObjectsManager->GetObject(_roomId, _objectId))
-        {
-            g_DebugManager->addLog(LogType_Message, "Transmitting signal: group(%s), roomId(%d), objectId(%d), state(%s)", _group?"true":"false", _roomId, _objectId, _intOn?"on":"off");
+        g_DebugManager->addLog(LogType_Message, "Transmitting signal: group(%s), roomId(%d), objectId(%d), state(%s)", _group?"true":"false", _roomId, _objectId, _intOn?"on":"off");
 
-            transmit(_intOn, _group, object->m_groupId, object->m_elementId);
-            for (unsigned int i = 1 ; i < _nbMsg ; ++i)
-            {
-                delay(10);
-                transmit(_intOn, _group, object->m_groupId, object->m_elementId);
-            }
+        transmit(_intOn, _group, _roomId, _objectId);
+        for (unsigned int i = 1 ; i < _nbMsg ; ++i)
+        {
+            delay(10);
+            transmit(_intOn, _group, _roomId, _objectId);
         }
     }
 }

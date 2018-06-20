@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <mutex>
 
 #include <Managers/Manager.h>
 #include "Request.h"
@@ -21,5 +22,7 @@ namespace Al
 
     private:
         std::map<RequestId, Request> m_requests;
+
+        std::mutex m_requestsMutex;
     };
 }
