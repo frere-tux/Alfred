@@ -50,6 +50,13 @@ void ConfigManager::Init()
         g_DebugManager->addLog(LogType_Message, "debug %s", m_enableDebug ? "enabled" : "disabled" );
     }
 
+    const rapidjson::Value& transmissionRedundancy = document["transmissionRedundancy"];
+    if (transmissionRedundancy.IsUint())
+    {
+        m_transmissionRedundancy = transmissionRedundancy.GetUint();
+        g_DebugManager->addLog(LogType_Message, "transmission redundancy: %u", m_transmissionRedundancy);
+    }
+
     g_DebugManager->addLog(LogType_Message, "---------------------------------------------");
 }
 

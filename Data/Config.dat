@@ -1,0 +1,8 @@
+{
+    "receptorPin" : 2,
+    "emitterPin" : 7,
+
+    "enableDebug" : true,
+
+    "transmissionRedundancy" : 3
+}

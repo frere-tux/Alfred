@@ -285,13 +285,13 @@
 	<Managers/Manager.h>
 	<string>
 
-1513197431 source:/home/pi/Projects/Alfred/Source/Config/ConfigManager.cpp
+1529502551 source:/home/pi/Projects/Alfred/Source/Config/ConfigManager.cpp
 	<Config/ConfigManager.h>
 	<rapidjson/document.h>
 	<rapidjson/filereadstream.h>
 	<Debug/DebugManager.h>
 
-1513198361 /home/pi/Projects/Alfred/Source/Config/ConfigManager.h
+1529502872 /home/pi/Projects/Alfred/Source/Config/ConfigManager.h
 	<Managers/Manager.h>
 	"AlTypes.h"
 
@@ -383,7 +383,7 @@
 	<AlTypes.h>
 	<map>
 
-1529496848 source:/home/pi/Projects/Alfred/Source/Requests/RequestsManager.cpp
+1529501408 source:/home/pi/Projects/Alfred/Source/Requests/RequestsManager.cpp
 	"RequestsManager.h"
 	<cassert>
 	<Debug/DebugManager.h>

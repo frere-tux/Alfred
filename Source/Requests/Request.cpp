@@ -3,6 +3,7 @@
 #include <Objects/ObjectsManager.h>
 #include <Radio/RadioManager.h>
 #include <Debug/DebugManager.h>
+#include <Config/ConfigManager.h>
 
 namespace Al
 {
@@ -32,7 +33,7 @@ bool Request::Execute()
         case RequestAction_Deactivate:
             if (const Object * object = g_ObjectsManager->GetObject(m_param.m_roomId, m_param.m_objectId))
             {
-                g_RadioManager->transmit(3, m_param.m_action == RequestAction_Activate ? true : false, false, object->m_groupId, object->m_elementId);
+                g_RadioManager->transmit(g_ConfigManager->GetTransmissionRedundancy(), m_param.m_action == RequestAction_Activate ? true : false, false, object->m_groupId, object->m_elementId);
                 return true;
             }
             else
@@ -51,7 +52,7 @@ bool Request::Execute()
         case RequestAction_Deactivate:
             if (const Object * object = g_ObjectsManager->GetObject(m_param.m_roomId, m_param.m_objectId))
             {
-                g_RadioManager->transmit(3, m_param.m_action == RequestAction_Activate ? true : false, true, object->m_groupId, object->m_elementId);
+                g_RadioManager->transmit(g_ConfigManager->GetTransmissionRedundancy(), m_param.m_action == RequestAction_Activate ? true : false, true, object->m_groupId, object->m_elementId);
                 return true;
             }
             else
