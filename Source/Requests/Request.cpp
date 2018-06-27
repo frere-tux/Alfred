@@ -26,33 +26,23 @@ bool Request::Execute()
     switch (m_param.m_type)
     {
     case RequestType_Device:
-
-        switch (m_param.m_action)
-        {
-        case RequestAction_Activate:
-        case RequestAction_Deactivate:
-            if (const Object * object = g_ObjectsManager->GetObject(m_param.m_roomId, m_param.m_objectId))
-            {
-                g_RadioManager->transmit(g_ConfigManager->GetTransmissionRedundancy(), m_param.m_action == RequestAction_Activate ? true : false, false, object->m_groupId, object->m_elementId);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-        default:
-            return false;
-        }
-
     case RequestType_DeviceGroup:
         switch (m_param.m_action)
         {
         case RequestAction_Activate:
         case RequestAction_Deactivate:
+
             if (const Object * object = g_ObjectsManager->GetObject(m_param.m_roomId, m_param.m_objectId))
             {
-                g_RadioManager->transmit(g_ConfigManager->GetTransmissionRedundancy(), m_param.m_action == RequestAction_Activate ? true : false, true, object->m_groupId, object->m_elementId);
+                printf("room: %d - object: %d\n", object->m_groupId, object->m_elementId);
+                TransmissionParam transmission;
+                transmission.m_state = m_param.m_action == RequestAction_Activate ? true : false;
+                transmission.m_group = m_param.m_type == RequestType_DeviceGroup ? true : false;
+                transmission.m_roomId = object->m_groupId;
+                transmission.m_objectId = object->m_elementId;
+
+                g_RadioManager->AddTransmission(transmission);
+
                 return true;
             }
             else

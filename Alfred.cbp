@@ -69,6 +69,9 @@
 		<Unit filename="Source/Objects/ObjectsTypes.h" />
 		<Unit filename="Source/Radio/RadioManager.cpp" />
 		<Unit filename="Source/Radio/RadioManager.h" />
+		<Unit filename="Source/Radio/RadioTypes.h" />
+		<Unit filename="Source/Radio/Transmission.cpp" />
+		<Unit filename="Source/Radio/Transmission.h" />
 		<Unit filename="Source/Requests/Request.cpp" />
 		<Unit filename="Source/Requests/Request.h" />
 		<Unit filename="Source/Requests/RequestsManager.cpp" />

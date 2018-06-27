@@ -17,6 +17,7 @@ DebugManager::DebugManager()
     , m_displayWarnings(true)
     , m_displayErrors(true)
     , m_displayImportant(true)
+    , m_displayDebug(false)
 {
 }
 
@@ -30,7 +31,8 @@ void DebugManager::addLog(const LogType _type, const std::string& _message) cons
     if ( ( (_type == LogType_Message && m_displayMessages)
        || (_type == LogType_Warning && m_displayWarnings)
        || (_type == LogType_Error && m_displayErrors)
-       || (_type == LogType_Important && m_displayImportant) )
+       || (_type == LogType_Important && m_displayImportant)
+       || (_type == LogType_Debug && m_displayDebug)  )
        && m_active)
     {
         std::cout << _message << std::endl;

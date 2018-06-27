@@ -12,7 +12,8 @@ namespace Al
         LogType_Message,
         LogType_Warning,
         LogType_Error,
-        LogType_Important
+        LogType_Important,
+        LogType_Debug
     };
 
     class DebugManager : public Manager
@@ -33,5 +34,6 @@ namespace Al
         bool    m_displayWarnings;
         bool    m_displayErrors;
         bool    m_displayImportant;
+        bool    m_displayDebug;
     };
 }

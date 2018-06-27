@@ -38,5 +38,6 @@ namespace Al
     DECLARE_MANAGER(RadioManager)
     DECLARE_MANAGER(RequestsManager)
     DECLARE_MANAGER(ComManager)
+    DECLARE_MANAGER(TasksManager)
 }
 

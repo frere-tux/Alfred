@@ -5,6 +5,7 @@
 #include <Radio/RadioManager.h>
 #include <Requests/RequestsManager.h>
 #include <Communication/ComManager.h>
+#include <Tasks/TasksManager.h>
 
 namespace Al
 {
@@ -22,6 +23,7 @@ REGISTER_MANAGER(ObjectsManager)
 REGISTER_MANAGER(RadioManager)
 REGISTER_MANAGER(RequestsManager)
 REGISTER_MANAGER(ComManager)
+REGISTER_MANAGER(TasksManager)
 
 void Managers::CreateManagers()
 {
@@ -29,6 +31,7 @@ void Managers::CreateManagers()
     CREATE_MANAGER(DebugManager)
     CREATE_MANAGER(ObjectsManager)
     CREATE_MANAGER(RequestsManager)
+    CREATE_MANAGER(TasksManager)
     CREATE_MANAGER(RadioManager)
     CREATE_MANAGER(ComManager)
 }
@@ -43,9 +46,10 @@ void Managers::InitManagers()
 
 void Managers::ProcessManagers()
 {
-    PROCESS_MANAGER(RadioManager)
-    PROCESS_MANAGER(RequestsManager)
     PROCESS_MANAGER(ComManager)
+    PROCESS_MANAGER(TasksManager)
+    PROCESS_MANAGER(RequestsManager)
+    PROCESS_MANAGER(RadioManager)
 }
 
 void Managers::EndManagers()
@@ -65,6 +69,7 @@ void Managers::EndManagers()
     NULLIFY_MANAGER(RequestsManager)
     NULLIFY_MANAGER(RadioManager)
     NULLIFY_MANAGER(ComManager)
+    NULLIFY_MANAGER(TasksManager)
 }
 
 }

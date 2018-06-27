@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <cstring>
+#include <cassert>
 
 #include <Wiring/Wiring.h>
 #include <Debug/DebugManager.h>
@@ -23,6 +24,8 @@
 
 namespace Al
 {
+
+static TransmissionId s_idGenerator = 0;
 
 RadioManager::RadioManager()
     : m_receptorPin(2)
@@ -278,6 +281,8 @@ void RadioManager::plotLastMessage()
 
 void RadioManager::Process(float _dt)
 {
+    /// Reception
+
     if (!m_receptionThread)
     {
         m_receptionThread = new std::thread(&RadioManager::AsyncProcessReception, this);
@@ -373,6 +378,25 @@ void RadioManager::Process(float _dt)
             plotLastMessage();
         }
     }
+
+
+    /// Transmission
+
+    m_transmissionsMutex.lock();
+    std::map<TransmissionId, Transmission> tempTransmissions(m_transmissions);
+    m_transmissions.clear();
+    m_transmissionsMutex.unlock();
+
+    u8 redundancy = g_ConfigManager->GetTransmissionRedundancy();
+    for (int i = 0 ; i < redundancy ; ++i)
+    {
+        for (auto& transmissionIt : tempTransmissions)
+        {
+            const TransmissionParam& transmission = transmissionIt.second.GetParam();
+
+            Transmit(transmission.m_state, transmission.m_group, transmission.m_roomId, transmission.m_objectId);
+        }
+    }
 }
 
 void RadioManager::AsyncProcessTransmission()
@@ -416,22 +440,22 @@ void RadioManager::sendPair(const bool _bit)
     }
 }
 
-void RadioManager::transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _roomId, const unsigned int _objectId)
+void RadioManager::Transmit(const unsigned int _nbMsg, const bool _intOn, const bool _group, const unsigned int _roomId, const unsigned int _objectId)
 {
     if (_nbMsg != 0)
     {
         g_DebugManager->addLog(LogType_Message, "Transmitting signal: group(%s), roomId(%d), objectId(%d), state(%s)", _group?"true":"false", _roomId, _objectId, _intOn?"on":"off");
 
-        transmit(_intOn, _group, _roomId, _objectId);
+        Transmit(_intOn, _group, _roomId, _objectId);
         for (unsigned int i = 1 ; i < _nbMsg ; ++i)
         {
             delay(10);
-            transmit(_intOn, _group, _roomId, _objectId);
+            Transmit(_intOn, _group, _roomId, _objectId);
         }
     }
 }
 
-void RadioManager::transmit(const bool _intOn, const bool _group, const unsigned int _groupId, const unsigned int _intId)
+void RadioManager::Transmit(const bool _intOn, const bool _group, const unsigned int _groupId, const unsigned int _intId)
 {
 // Sequence de verrou anoncant le départ du signal au recepeteur
     Wiring::writeDigital(m_transmitterPin, HIGH);
@@ -476,6 +500,38 @@ void RadioManager::transmit(const bool _intOn, const bool _group, const unsigned
     Wiring::writeDigital(m_transmitterPin, LOW);    // verrou 2 de 2675µs pour signaler la fermeture du signal
 
     //printf("\n");
+}
+
+TransmissionId RadioManager::AddTransmission(const TransmissionParam& _param)
+{
+    g_DebugManager->addLog(LogType_Message, "RadioManager: Transmission %d added", s_idGenerator);
+
+    m_transmissionsMutex.lock();
+    assert(m_transmissions.find(s_idGenerator) == m_transmissions.end());
+    m_transmissions[s_idGenerator] = Transmission(s_idGenerator, _param);
+    m_transmissionsMutex.unlock();
+
+    TransmissionId id = s_idGenerator++;
+
+    if (s_idGenerator == MAX_U16)
+    {
+        s_idGenerator = 0;
+    }
+
+    return id;
+}
+
+void RadioManager::RemoveTransmission(TransmissionId _id)
+{
+    m_transmissionsMutex.lock();
+
+    auto transmissionIt = m_transmissions.find(_id);
+
+    assert(transmissionIt != m_transmissions.end());
+
+    m_transmissions.erase(transmissionIt);
+
+    m_transmissionsMutex.unlock();
 }
 
 }
