@@ -22,6 +22,7 @@ class AlfredCommunicationIf {
  public:
   virtual ~AlfredCommunicationIf() {}
   virtual void sendSimpleRequest(const SimpleRequest& request) = 0;
+  virtual void sendTask(const ComTask& task) = 0;
 };
 
 class AlfredCommunicationIfFactory {
@@ -52,6 +53,9 @@ class AlfredCommunicationNull : virtual public AlfredCommunicationIf {
  public:
   virtual ~AlfredCommunicationNull() {}
   void sendSimpleRequest(const SimpleRequest& /* request */) {
+    return;
+  }
+  void sendTask(const ComTask& /* task */) {
     return;
   }
 };
@@ -105,6 +109,55 @@ class AlfredCommunication_sendSimpleRequest_pargs {
 
 };
 
+typedef struct _AlfredCommunication_sendTask_args__isset {
+  _AlfredCommunication_sendTask_args__isset() : task(false) {}
+  bool task :1;
+} _AlfredCommunication_sendTask_args__isset;
+
+class AlfredCommunication_sendTask_args {
+ public:
+
+  AlfredCommunication_sendTask_args(const AlfredCommunication_sendTask_args&);
+  AlfredCommunication_sendTask_args& operator=(const AlfredCommunication_sendTask_args&);
+  AlfredCommunication_sendTask_args() {
+  }
+
+  virtual ~AlfredCommunication_sendTask_args() throw();
+  ComTask task;
+
+  _AlfredCommunication_sendTask_args__isset __isset;
+
+  void __set_task(const ComTask& val);
+
+  bool operator == (const AlfredCommunication_sendTask_args & rhs) const
+  {
+    if (!(task == rhs.task))
+      return false;
+    return true;
+  }
+  bool operator != (const AlfredCommunication_sendTask_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const AlfredCommunication_sendTask_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class AlfredCommunication_sendTask_pargs {
+ public:
+
+
+  virtual ~AlfredCommunication_sendTask_pargs() throw();
+  const ComTask* task;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
 class AlfredCommunicationClient : virtual public AlfredCommunicationIf {
  public:
   AlfredCommunicationClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -132,6 +185,8 @@ class AlfredCommunicationClient : virtual public AlfredCommunicationIf {
   }
   void sendSimpleRequest(const SimpleRequest& request);
   void send_sendSimpleRequest(const SimpleRequest& request);
+  void sendTask(const ComTask& task);
+  void send_sendTask(const ComTask& task);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -148,10 +203,12 @@ class AlfredCommunicationProcessor : public ::apache::thrift::TDispatchProcessor
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_sendSimpleRequest(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_sendTask(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AlfredCommunicationProcessor(boost::shared_ptr<AlfredCommunicationIf> iface) :
     iface_(iface) {
     processMap_["sendSimpleRequest"] = &AlfredCommunicationProcessor::process_sendSimpleRequest;
+    processMap_["sendTask"] = &AlfredCommunicationProcessor::process_sendTask;
   }
 
   virtual ~AlfredCommunicationProcessor() {}
@@ -189,6 +246,15 @@ class AlfredCommunicationMultiface : virtual public AlfredCommunicationIf {
     ifaces_[i]->sendSimpleRequest(request);
   }
 
+  void sendTask(const ComTask& task) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->sendTask(task);
+    }
+    ifaces_[i]->sendTask(task);
+  }
+
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -221,6 +287,8 @@ class AlfredCommunicationConcurrentClient : virtual public AlfredCommunicationIf
   }
   void sendSimpleRequest(const SimpleRequest& request);
   void send_sendSimpleRequest(const SimpleRequest& request);
+  void sendTask(const ComTask& task);
+  void send_sendTask(const ComTask& task);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

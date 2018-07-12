@@ -87,6 +87,85 @@ uint32_t AlfredCommunication_sendSimpleRequest_pargs::write(::apache::thrift::pr
   return xfer;
 }
 
+
+AlfredCommunication_sendTask_args::~AlfredCommunication_sendTask_args() throw() {
+}
+
+
+uint32_t AlfredCommunication_sendTask_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->task.read(iprot);
+          this->__isset.task = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t AlfredCommunication_sendTask_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("AlfredCommunication_sendTask_args");
+
+  xfer += oprot->writeFieldBegin("task", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += this->task.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+AlfredCommunication_sendTask_pargs::~AlfredCommunication_sendTask_pargs() throw() {
+}
+
+
+uint32_t AlfredCommunication_sendTask_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("AlfredCommunication_sendTask_pargs");
+
+  xfer += oprot->writeFieldBegin("task", ::apache::thrift::protocol::T_STRUCT, 1);
+  xfer += (*(this->task)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
 void AlfredCommunicationClient::sendSimpleRequest(const SimpleRequest& request)
 {
   send_sendSimpleRequest(request);
@@ -99,6 +178,25 @@ void AlfredCommunicationClient::send_sendSimpleRequest(const SimpleRequest& requ
 
   AlfredCommunication_sendSimpleRequest_pargs args;
   args.request = &request;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void AlfredCommunicationClient::sendTask(const ComTask& task)
+{
+  send_sendTask(task);
+}
+
+void AlfredCommunicationClient::send_sendTask(const ComTask& task)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("sendTask", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  AlfredCommunication_sendTask_pargs args;
+  args.task = &task;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -162,6 +260,43 @@ void AlfredCommunicationProcessor::process_sendSimpleRequest(int32_t, ::apache::
   return;
 }
 
+void AlfredCommunicationProcessor::process_sendTask(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("AlfredCommunication.sendTask", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "AlfredCommunication.sendTask");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "AlfredCommunication.sendTask");
+  }
+
+  AlfredCommunication_sendTask_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "AlfredCommunication.sendTask", bytes);
+  }
+
+  try {
+    iface_->sendTask(args.task);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "AlfredCommunication.sendTask");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->asyncComplete(ctx, "AlfredCommunication.sendTask");
+  }
+
+  return;
+}
+
 ::boost::shared_ptr< ::apache::thrift::TProcessor > AlfredCommunicationProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
   ::apache::thrift::ReleaseHandler< AlfredCommunicationIfFactory > cleanup(handlerFactory_);
   ::boost::shared_ptr< AlfredCommunicationIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
@@ -182,6 +317,28 @@ void AlfredCommunicationConcurrentClient::send_sendSimpleRequest(const SimpleReq
 
   AlfredCommunication_sendSimpleRequest_pargs args;
   args.request = &request;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+void AlfredCommunicationConcurrentClient::sendTask(const ComTask& task)
+{
+  send_sendTask(task);
+}
+
+void AlfredCommunicationConcurrentClient::send_sendTask(const ComTask& task)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
+  oprot_->writeMessageBegin("sendTask", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  AlfredCommunication_sendTask_pargs args;
+  args.task = &task;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();

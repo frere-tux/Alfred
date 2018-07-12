@@ -61,7 +61,6 @@ int main (int argc, char** argv)
 	request.m_objectId = 1;
 	taskParam.m_startRequests.push_back(request);
 
-
 	request.m_type = RequestType_Device;
 	request.m_action = RequestAction_Deactivate;
 	request.m_roomId = 0;

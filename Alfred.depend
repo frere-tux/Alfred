@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1530024299 source:/home/pi/Projects/Alfred/Source/Main.cpp
+1530125658 source:/home/pi/Projects/Alfred/Source/Main.cpp
 	<sched.h>
 	<stdio.h>
 	<stdlib.h>
@@ -79,10 +79,10 @@
 
 1476900016 /home/pi/Projects/Alfred/Source/Tools/Utils.h
 
-1488138435 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.cpp
+1530559009 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.cpp
 	"AlfredCommunication.h"
 
-1488138435 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.h
+1530559009 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlfredCommunication.h
 	<thrift/TDispatchProcessor.h>
 	<thrift/async/TConcurrentClientSyncInfo.h>
 	"AlCom_types.h"
@@ -114,11 +114,12 @@
 	<ostream>
 	<thrift/TToString.h>
 
-1529504625 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
+1530542204 /home/pi/Projects/Alfred/Source/Communication/ComServer.h
 	"./gen-cpp/AlfredCommunication.h"
 
-1529504625 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
+1530884788 source:/home/pi/Projects/Alfred/Source/Communication/ComServer.cpp
 	"ComServer.h"
+	<time.h>
 	<thrift/protocol/TBinaryProtocol.h>
 	<thrift/server/TSimpleServer.h>
 	<thrift/transport/TServerSocket.h>
@@ -127,8 +128,9 @@
 	<Requests/RequestsManager.h>
 	<Objects/ObjectsManager.h>
 	<Debug/DebugManager.h>
+	<Tasks/TasksManager.h>
 
-1488138435 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.h
+1530559009 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.h
 	<iosfwd>
 	<thrift/Thrift.h>
 	<thrift/TApplicationException.h>
@@ -136,13 +138,13 @@
 	<thrift/transport/TTransport.h>
 	<thrift/cxxfunctional.h>
 
-1488138435 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_constants.cpp
+1530559009 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_constants.cpp
 	"AlCom_constants.h"
 
-1488138435 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_constants.h
+1530559009 /home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_constants.h
 	"AlCom_types.h"
 
-1488138435 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.cpp
+1530559009 source:/home/pi/Projects/Alfred/Source/Communication/gen-cpp/AlCom_types.cpp
 	"AlCom_types.h"
 	<algorithm>
 	<ostream>
@@ -298,7 +300,7 @@
 	<Managers/Manager.h>
 	"AlTypes.h"
 
-1530024069 source:/home/pi/Projects/Alfred/Source/Debug/DebugManager.cpp
+1530884902 source:/home/pi/Projects/Alfred/Source/Debug/DebugManager.cpp
 	"DebugManager.h"
 	<iostream>
 	<cstdarg>
@@ -331,7 +333,7 @@
 	"Transmission.h"
 	"RadioTypes.h"
 
-1530124109 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
+1530284413 source:/home/pi/Projects/Alfred/Source/Radio/RadioManager.cpp
 	"RadioManager.h"
 	<sys/time.h>
 	<time.h>
@@ -348,7 +350,7 @@
 1529504625 source:/home/pi/Projects/Alfred/Source/Objects/Object.cpp
 	"Object.h"
 
-1530124334 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
+1530124558 source:/home/pi/Projects/Alfred/Source/Requests/Request.cpp
 	"Request.h"
 	<Objects/ObjectsManager.h>
 	<Radio/RadioManager.h>

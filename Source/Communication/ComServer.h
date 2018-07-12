@@ -9,6 +9,7 @@ namespace Al
     public:
         CommunicationHandler();
         void sendSimpleRequest(const SimpleRequest& request);
+        void sendTask(const ComTask& task);
 
         static int startCommunicationServer();
     };

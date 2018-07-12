@@ -27,6 +27,11 @@ class AlfredCommunicationHandler : virtual public AlfredCommunicationIf {
     printf("sendSimpleRequest\n");
   }
 
+  void sendTask(const ComTask& task) {
+    // Your implementation goes here
+    printf("sendTask\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

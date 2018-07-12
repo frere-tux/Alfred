@@ -23,7 +23,11 @@ typedef int32_t GroupID;
 
 typedef int32_t ElementID;
 
+typedef int32_t Time;
+
 class SimpleRequest;
+
+class ComTask;
 
 typedef struct _SimpleRequest__isset {
   _SimpleRequest__isset() : groupID(false), elementID(false), state(false), group(false) {}
@@ -84,6 +88,82 @@ class SimpleRequest {
 void swap(SimpleRequest &a, SimpleRequest &b);
 
 inline std::ostream& operator<<(std::ostream& out, const SimpleRequest& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _ComTask__isset {
+  _ComTask__isset() : startTime(false), endTime(false), periodicity(false), duration(false), startRequests(false), endRequests(false) {}
+  bool startTime :1;
+  bool endTime :1;
+  bool periodicity :1;
+  bool duration :1;
+  bool startRequests :1;
+  bool endRequests :1;
+} _ComTask__isset;
+
+class ComTask {
+ public:
+
+  ComTask(const ComTask&);
+  ComTask& operator=(const ComTask&);
+  ComTask() : startTime(0), endTime(0), periodicity(0), duration(0) {
+  }
+
+  virtual ~ComTask() throw();
+  Time startTime;
+  Time endTime;
+  Time periodicity;
+  Time duration;
+  std::vector<SimpleRequest>  startRequests;
+  std::vector<SimpleRequest>  endRequests;
+
+  _ComTask__isset __isset;
+
+  void __set_startTime(const Time val);
+
+  void __set_endTime(const Time val);
+
+  void __set_periodicity(const Time val);
+
+  void __set_duration(const Time val);
+
+  void __set_startRequests(const std::vector<SimpleRequest> & val);
+
+  void __set_endRequests(const std::vector<SimpleRequest> & val);
+
+  bool operator == (const ComTask & rhs) const
+  {
+    if (!(startTime == rhs.startTime))
+      return false;
+    if (!(endTime == rhs.endTime))
+      return false;
+    if (!(periodicity == rhs.periodicity))
+      return false;
+    if (!(duration == rhs.duration))
+      return false;
+    if (!(startRequests == rhs.startRequests))
+      return false;
+    if (!(endRequests == rhs.endRequests))
+      return false;
+    return true;
+  }
+  bool operator != (const ComTask &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const ComTask & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(ComTask &a, ComTask &b);
+
+inline std::ostream& operator<<(std::ostream& out, const ComTask& obj)
 {
   obj.printTo(out);
   return out;

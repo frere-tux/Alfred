@@ -36,6 +36,7 @@ namespace php AlCom
 
 typedef i32 GroupID
 typedef i32 ElementID
+typedef i32 Time
 
 /**
  * Structs are the basic complex data structures. They are comprised of fields
@@ -55,6 +56,16 @@ struct SimpleRequest
   4: bool group,
 }
 
+struct ComTask
+{
+  1: Time startTime,
+  2: Time endTime,
+  3: Time periodicity,
+  4: Time duration,
+  5: list<SimpleRequest> startRequests,
+  6: list<SimpleRequest> endRequests,
+}
+
 /**
  * Ahh, now onto the cool part, defining a service. Services just need a name
  * and can optionally inherit from another service using the extends keyword.
@@ -62,4 +73,6 @@ struct SimpleRequest
 service AlfredCommunication
 {
    oneway void sendSimpleRequest(1:SimpleRequest request)
+
+   oneway void sendTask(1:ComTask task)
 }

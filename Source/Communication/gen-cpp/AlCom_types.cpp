@@ -159,4 +159,230 @@ void SimpleRequest::printTo(std::ostream& out) const {
   out << ")";
 }
 
+
+ComTask::~ComTask() throw() {
+}
+
+
+void ComTask::__set_startTime(const Time val) {
+  this->startTime = val;
+}
+
+void ComTask::__set_endTime(const Time val) {
+  this->endTime = val;
+}
+
+void ComTask::__set_periodicity(const Time val) {
+  this->periodicity = val;
+}
+
+void ComTask::__set_duration(const Time val) {
+  this->duration = val;
+}
+
+void ComTask::__set_startRequests(const std::vector<SimpleRequest> & val) {
+  this->startRequests = val;
+}
+
+void ComTask::__set_endRequests(const std::vector<SimpleRequest> & val) {
+  this->endRequests = val;
+}
+
+uint32_t ComTask::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->startTime);
+          this->__isset.startTime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->endTime);
+          this->__isset.endTime = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->periodicity);
+          this->__isset.periodicity = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->duration);
+          this->__isset.duration = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 5:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->startRequests.clear();
+            uint32_t _size2;
+            ::apache::thrift::protocol::TType _etype5;
+            xfer += iprot->readListBegin(_etype5, _size2);
+            this->startRequests.resize(_size2);
+            uint32_t _i6;
+            for (_i6 = 0; _i6 < _size2; ++_i6)
+            {
+              xfer += this->startRequests[_i6].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.startRequests = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 6:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->endRequests.clear();
+            uint32_t _size7;
+            ::apache::thrift::protocol::TType _etype10;
+            xfer += iprot->readListBegin(_etype10, _size7);
+            this->endRequests.resize(_size7);
+            uint32_t _i11;
+            for (_i11 = 0; _i11 < _size7; ++_i11)
+            {
+              xfer += this->endRequests[_i11].read(iprot);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.endRequests = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t ComTask::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("ComTask");
+
+  xfer += oprot->writeFieldBegin("startTime", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->startTime);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("endTime", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->endTime);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("periodicity", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->periodicity);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("duration", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->duration);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("startRequests", ::apache::thrift::protocol::T_LIST, 5);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->startRequests.size()));
+    std::vector<SimpleRequest> ::const_iterator _iter12;
+    for (_iter12 = this->startRequests.begin(); _iter12 != this->startRequests.end(); ++_iter12)
+    {
+      xfer += (*_iter12).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("endRequests", ::apache::thrift::protocol::T_LIST, 6);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRUCT, static_cast<uint32_t>(this->endRequests.size()));
+    std::vector<SimpleRequest> ::const_iterator _iter13;
+    for (_iter13 = this->endRequests.begin(); _iter13 != this->endRequests.end(); ++_iter13)
+    {
+      xfer += (*_iter13).write(oprot);
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(ComTask &a, ComTask &b) {
+  using ::std::swap;
+  swap(a.startTime, b.startTime);
+  swap(a.endTime, b.endTime);
+  swap(a.periodicity, b.periodicity);
+  swap(a.duration, b.duration);
+  swap(a.startRequests, b.startRequests);
+  swap(a.endRequests, b.endRequests);
+  swap(a.__isset, b.__isset);
+}
+
+ComTask::ComTask(const ComTask& other14) {
+  startTime = other14.startTime;
+  endTime = other14.endTime;
+  periodicity = other14.periodicity;
+  duration = other14.duration;
+  startRequests = other14.startRequests;
+  endRequests = other14.endRequests;
+  __isset = other14.__isset;
+}
+ComTask& ComTask::operator=(const ComTask& other15) {
+  startTime = other15.startTime;
+  endTime = other15.endTime;
+  periodicity = other15.periodicity;
+  duration = other15.duration;
+  startRequests = other15.startRequests;
+  endRequests = other15.endRequests;
+  __isset = other15.__isset;
+  return *this;
+}
+void ComTask::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "ComTask(";
+  out << "startTime=" << to_string(startTime);
+  out << ", " << "endTime=" << to_string(endTime);
+  out << ", " << "periodicity=" << to_string(periodicity);
+  out << ", " << "duration=" << to_string(duration);
+  out << ", " << "startRequests=" << to_string(startRequests);
+  out << ", " << "endRequests=" << to_string(endRequests);
+  out << ")";
+}
+
 } // namespace
